@@ -29,7 +29,7 @@ namespace Audio_w_Czasie
 
         private void PlotWaveform(WavData wav)
         {
-            int maxPoints = 200_000;
+            int maxPoints = 200_000; //for performance, limit the number of points plotted. If the audio is longer than this, we will downsample it for plotting.
             float[] x = wav.SamplesMono;
 
             double[] ys;
