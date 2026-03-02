@@ -60,5 +60,10 @@ namespace Audio_w_Czasie
 
             formsPlotWave.Refresh();
         }
+
+        private void openWAVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
