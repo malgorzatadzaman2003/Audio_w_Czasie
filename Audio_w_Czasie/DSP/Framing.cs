@@ -8,7 +8,7 @@ namespace Audio_w_Czasie.DSP
 {
     public static class Framing
     {
-        public static int FrameSizeSamples(int sampleRate, int frameMs)
+        public static int FrameSizeFromMs(int sampleRate, int frameMs)
         {
             return (int)Math.Round(sampleRate * frameMs / 1000.0);
         }

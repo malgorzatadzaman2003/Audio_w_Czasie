@@ -36,16 +36,15 @@
             openWAVToolStripMenuItem = new ToolStripMenuItem();
             exportCSVToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
-            tabControl1 = new TabControl();
-            tabPage1 = new TabPage();
-            tabPage2 = new TabPage();
+            formsPlotFeat = new ScottPlot.WinForms.FormsPlot();
+            chkNormalizeVolume = new CheckBox();
+            chkSilence = new CheckBox();
             menuStrip1.SuspendLayout();
-            tabControl1.SuspendLayout();
             SuspendLayout();
             // 
             // btnLoad
             // 
-            btnLoad.Location = new Point(285, 351);
+            btnLoad.Location = new Point(622, 118);
             btnLoad.Name = "btnLoad";
             btnLoad.Size = new Size(94, 29);
             btnLoad.TabIndex = 0;
@@ -56,7 +55,7 @@
             // lblInfo
             // 
             lblInfo.AutoSize = true;
-            lblInfo.Location = new Point(56, 340);
+            lblInfo.Location = new Point(622, 175);
             lblInfo.Name = "lblInfo";
             lblInfo.Size = new Size(50, 20);
             lblInfo.TabIndex = 1;
@@ -65,7 +64,7 @@
             // formsPlotWave
             // 
             formsPlotWave.DisplayScale = 1.25F;
-            formsPlotWave.Location = new Point(24, 127);
+            formsPlotWave.Location = new Point(0, 52);
             formsPlotWave.Name = "formsPlotWave";
             formsPlotWave.Size = new Size(575, 188);
             formsPlotWave.TabIndex = 2;
@@ -90,59 +89,60 @@
             // openWAVToolStripMenuItem
             // 
             openWAVToolStripMenuItem.Name = "openWAVToolStripMenuItem";
-            openWAVToolStripMenuItem.Size = new Size(224, 26);
+            openWAVToolStripMenuItem.Size = new Size(165, 26);
             openWAVToolStripMenuItem.Text = "Open WAV";
             openWAVToolStripMenuItem.Click += openWAVToolStripMenuItem_Click;
             // 
             // exportCSVToolStripMenuItem
             // 
             exportCSVToolStripMenuItem.Name = "exportCSVToolStripMenuItem";
-            exportCSVToolStripMenuItem.Size = new Size(224, 26);
+            exportCSVToolStripMenuItem.Size = new Size(165, 26);
             exportCSVToolStripMenuItem.Text = "Export CSV";
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(224, 26);
+            exitToolStripMenuItem.Size = new Size(165, 26);
             exitToolStripMenuItem.Text = "Exit";
             // 
-            // tabControl1
+            // formsPlotFeat
             // 
-            tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
-            tabControl1.Location = new Point(56, 0);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(323, 125);
-            tabControl1.TabIndex = 4;
+            formsPlotFeat.DisplayScale = 1.25F;
+            formsPlotFeat.Location = new Point(0, 250);
+            formsPlotFeat.Name = "formsPlotFeat";
+            formsPlotFeat.Size = new Size(575, 188);
+            formsPlotFeat.TabIndex = 4;
             // 
-            // tabPage1
+            // chkNormalizeVolume
             // 
-            tabPage1.Location = new Point(4, 29);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(315, 92);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "tabPage1";
-            tabPage1.UseVisualStyleBackColor = true;
+            chkNormalizeVolume.AutoSize = true;
+            chkNormalizeVolume.Location = new Point(615, 280);
+            chkNormalizeVolume.Name = "chkNormalizeVolume";
+            chkNormalizeVolume.Size = new Size(150, 24);
+            chkNormalizeVolume.TabIndex = 5;
+            chkNormalizeVolume.Text = "NormalizeVolume";
+            chkNormalizeVolume.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
+            // chkSilence
             // 
-            tabPage2.Location = new Point(4, 29);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(315, 92);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
-            tabPage2.UseVisualStyleBackColor = true;
+            chkSilence.AutoSize = true;
+            chkSilence.Location = new Point(615, 322);
+            chkSilence.Name = "chkSilence";
+            chkSilence.Size = new Size(78, 24);
+            chkSilence.TabIndex = 6;
+            chkSilence.Text = "Silence";
+            chkSilence.UseVisualStyleBackColor = true;
+            chkSilence.CheckedChanged += chkSilence_CheckedChanged;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(chkSilence);
+            Controls.Add(chkNormalizeVolume);
+            Controls.Add(formsPlotFeat);
             Controls.Add(formsPlotWave);
-            Controls.Add(tabControl1);
             Controls.Add(lblInfo);
             Controls.Add(btnLoad);
             Controls.Add(menuStrip1);
@@ -151,7 +151,6 @@
             Text = "Cechy Sygnału Audio w Czasie";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            tabControl1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -166,8 +165,8 @@
         private ToolStripMenuItem openWAVToolStripMenuItem;
         private ToolStripMenuItem exportCSVToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
-        private TabControl tabControl1;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
+        private ScottPlot.WinForms.FormsPlot formsPlotFeat;
+        private CheckBox chkNormalizeVolume;
+        private CheckBox chkSilence;
     }
 }
