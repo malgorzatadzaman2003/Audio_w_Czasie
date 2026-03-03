@@ -1,5 +1,6 @@
 using Audio_w_Czasie.Audio;
 using Audio_w_Czasie.DSP;
+using Audio_w_Czasie.Export;
 
 namespace Audio_w_Czasie
 {
@@ -154,6 +155,34 @@ namespace Audio_w_Czasie
             {
                 PlotWaveform(_wav); // redraw without rectangles
             }
+        }
+
+        private void exportCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_wav == null || _feat == null)
+            {
+                MessageBox.Show("No data to export. Load WAV and compute features first.");
+                return;
+            }
+
+            using var sfd = new SaveFileDialog();
+            sfd.Filter = "CSV files (*.csv)|*.csv";
+            sfd.FileName = "frame_features.csv";
+
+            if (sfd.ShowDialog() != DialogResult.OK)
+            {
+                return;
+            }
+
+            CsvExporter.ExportFrameData(
+                path: sfd.FileName,
+                sampleRate: _wav.SampleRate,
+                frameSize: _frameSize,
+                hopSize: _hop,
+                feat: _feat
+            );
+
+            MessageBox.Show("CSV exported successfully.");
         }
     }
 }

@@ -89,20 +89,21 @@
             // openWAVToolStripMenuItem
             // 
             openWAVToolStripMenuItem.Name = "openWAVToolStripMenuItem";
-            openWAVToolStripMenuItem.Size = new Size(165, 26);
+            openWAVToolStripMenuItem.Size = new Size(224, 26);
             openWAVToolStripMenuItem.Text = "Open WAV";
             openWAVToolStripMenuItem.Click += openWAVToolStripMenuItem_Click;
             // 
             // exportCSVToolStripMenuItem
             // 
             exportCSVToolStripMenuItem.Name = "exportCSVToolStripMenuItem";
-            exportCSVToolStripMenuItem.Size = new Size(165, 26);
+            exportCSVToolStripMenuItem.Size = new Size(224, 26);
             exportCSVToolStripMenuItem.Text = "Export CSV";
+            exportCSVToolStripMenuItem.Click += exportCSVToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(165, 26);
+            exitToolStripMenuItem.Size = new Size(224, 26);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // formsPlotFeat

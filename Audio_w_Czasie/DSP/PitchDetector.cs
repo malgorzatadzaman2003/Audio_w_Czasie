@@ -165,5 +165,4 @@ namespace Audio_w_Czasie.DSP
             };
         }
     }
-    }
 }
