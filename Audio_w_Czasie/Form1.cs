@@ -22,122 +22,6 @@ namespace Audio_w_Czasie
             InitializeComponent();
         }
 
-        private void PlotWaveform(WavData wav)
-        {
-            int maxPoints = 200_000; //for performance, limit the number of points plotted. If the audio is longer than this, we will downsample it for plotting.
-            float[] x = wav.SamplesMono;
-
-            double[] ys;
-            if (x.Length <= maxPoints)
-            {
-                ys = Array.ConvertAll(x, v => (double)v);
-            }
-            else
-            {
-                int step = (int)Math.Ceiling((double)x.Length / maxPoints);
-                int n = x.Length / step;
-                ys = new double[n];
-                for (int i = 0; i < n; i++)
-                {
-                    ys[i] = x[i * step];
-                }
-            }
-
-            formsPlotWave.Plot.Clear();
-
-            double sampleSpacing = 1.0 / wav.SampleRate;
-            formsPlotWave.Plot.Add.Signal(ys, sampleSpacing);
-
-            formsPlotWave.Plot.Title("Waveform");
-            formsPlotWave.Plot.YLabel("Amplitude");
-            formsPlotWave.Plot.XLabel("Time (s)");
-            formsPlotWave.Plot.Axes.AutoScale();
-
-            formsPlotWave.Refresh();
-        }
-
-        private void ComputeAndPlotFeatures()
-        {
-            if (_wav == null) return;
-
-            int frameMs = 20;       // na start (potem podepniesz ComboBox)
-            _frameSize = DSP.Framing.FrameSizeFromMs(_wav.SampleRate, frameMs);
-            _hop = _frameSize / 2;
-
-            _frames = DSP.Framing.MakeFrames(_wav.SamplesMono, _frameSize, _hop, applyHamming: false);
-
-            _feat = DSP.FeatureExtractor.ExtractFeatures(
-                _frames, _wav.SampleRate, _hop,
-                normalizeVolume: chkNormalizeVolume.Checked,
-                thrVolNorm: 0.05,
-                thrZcr: 0.03
-            );
-
-            // wykres cech: VolumeNorm (linia)
-            formsPlotFeat.Plot.Clear();
-
-            double samplePeriod = _feat.FrameShiftSeconds;
-            formsPlotFeat.Plot.Add.Signal(_feat.VolumeRms, samplePeriod);
-
-            formsPlotFeat.Plot.Title("Volume (normalized RMS) per frame");
-            formsPlotFeat.Plot.XLabel("Time (s)");
-            formsPlotFeat.Plot.YLabel("Volume");
-
-            formsPlotFeat.Plot.Axes.AutoScale();
-
-            formsPlotFeat.Refresh();
-
-            // zaznacz ciszê na waveform
-            if (chkSilence.Checked)
-                PlotSilenceOnWaveform();
-            else
-                PlotWaveform(_wav);
-        }
-
-        private void PlotSilenceOnWaveform()
-        {
-            if (_wav == null || _feat == null) return;
-
-            PlotWaveform(_wav);
-
-            int N = _frameSize;
-            int hop = _hop;
-
-            for (int f = 0; f < _feat.IsSilence.Length; f++)
-            {
-                if (!_feat.IsSilence[f]) continue;
-
-                double t0 = (double)(f * hop) / _wav.SampleRate;
-                double t1 = (double)(f * hop + N) / _wav.SampleRate;
-
-                // ScottPlot 5: Rectangle(x1, x2, y1, y2)
-                var r = formsPlotWave.Plot.Add.Rectangle(t0, t1, -1, 1);
-
-                // wype³nienie z alpha (zamiast FillStyle.Solid)
-                r.FillStyle.Color = ScottPlot.Colors.Red.WithAlpha(0.15);
-
-                // brak obramowania
-                r.LineStyle.Width = 0;
-            }
-
-            formsPlotWave.Refresh();
-        }
-
-        private void chkSilence_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_wav == null) return;
-
-            if (chkSilence.Checked)
-            {
-                if (_feat == null) ComputeAndPlotFeatures(); // or just return if you require features
-                PlotSilenceOnWaveform();
-            }
-            else
-            {
-                PlotWaveform(_wav); // redraw without rectangles
-            }
-        }
-
         private void openWAVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var ofd = new OpenFileDialog();
@@ -147,7 +31,7 @@ namespace Audio_w_Czasie
 
             _wav = WavReader.ReadPcm16(ofd.FileName);
             UpdateInfoPanel(_wav, ofd.FileName);
-            //RecomputeAndRefresh();
+            RecomputeAndRefresh();
         }
 
         private void exportCSVToolStripMenuItem_Click(object sender, EventArgs e)
@@ -163,19 +47,200 @@ namespace Audio_w_Czasie
             sfd.FileName = "frame_features.csv";
 
             if (sfd.ShowDialog() != DialogResult.OK)
-            {
                 return;
-            }
 
             CsvExporter.ExportFrameData(
                 path: sfd.FileName,
                 sampleRate: _wav.SampleRate,
                 frameSize: _frameSize,
                 hopSize: _hop,
-                feat: _feat
+                feat: _feat,
+                f0Acf: _pitchAcf?.F0Hz,
+                f0Amdf: _pitchAmdf?.F0Hz,
+                voiced: _pitchAcf?.IsVoiced
             );
 
             MessageBox.Show("CSV exported successfully.");
+        }
+
+        private void PlotWaveformWithSelection()
+        {
+            if (_wav == null)
+                return;
+
+            int maxPoints = 200_000;
+            float[] x = _wav.SamplesMono;
+
+            double[] ys;
+            if (x.Length <= maxPoints)
+            {
+                ys = Array.ConvertAll(x, v => (double)v);
+            }
+            else
+            {
+                int step = (int)Math.Ceiling((double)x.Length / maxPoints);
+                int n = x.Length / step;
+                ys = new double[n];
+                for (int i = 0; i < n; i++)
+                    ys[i] = x[i * step];
+            }
+
+            formsPlotWave.Plot.Clear();
+
+            double sampleSpacing = 1.0 / _wav.SampleRate;
+            formsPlotWave.Plot.Add.Signal(ys, sampleSpacing);
+
+            formsPlotWave.Plot.Title("Waveform");
+            formsPlotWave.Plot.XLabel("Time (s)");
+            formsPlotWave.Plot.YLabel("Amplitude");
+
+            if (_feat != null && chkSilence.Checked)
+            {
+                for (int f = 0; f < _feat.IsSilence.Length; f++)
+                {
+                    if (!_feat.IsSilence[f]) continue;
+
+                    double t0 = (double)(f * _hop) / _wav.SampleRate;
+                    double t1 = (double)(f * _hop + _frameSize) / _wav.SampleRate;
+
+                    var r = formsPlotWave.Plot.Add.Rectangle(t0, t1, -1, 1);
+                    r.FillStyle.Color = ScottPlot.Colors.Red.WithAlpha(0.15);
+                    r.LineStyle.Width = 0;
+                }
+            }
+
+            if (_frames != null && _frames.Length > 0)
+            {
+                int f = trackFrame.Value;
+                double t0 = (double)(f * _hop) / _wav.SampleRate;
+                double t1 = (double)(f * _hop + _frameSize) / _wav.SampleRate;
+
+                var selected = formsPlotWave.Plot.Add.Rectangle(t0, t1, -1, 1);
+                selected.FillStyle.Color = ScottPlot.Colors.Blue.WithAlpha(0.12);
+                selected.LineStyle.Width = 1;
+            }
+
+            formsPlotWave.Plot.Axes.AutoScale();
+            formsPlotWave.Refresh();
+        }
+
+        private void PlotSelectedFeature()
+        {
+            if (_feat == null)
+                return;
+
+            formsPlotFeat.Plot.Clear();
+
+            double[] values;
+            string title;
+            string ylabel;
+
+            switch (cmbFeature.SelectedItem?.ToString())
+            {
+                case "STE":
+                    values = _feat.Ste;
+                    title = "Short-Time Energy";
+                    ylabel = "STE";
+                    break;
+
+                case "ZCR":
+                    values = _feat.Zcr;
+                    title = "Zero-Crossing Rate";
+                    ylabel = "ZCR";
+                    break;
+
+                default:
+                    values = _feat.VolumeRms;
+                    title = "Volume RMS";
+                    ylabel = "RMS";
+                    break;
+            }
+
+            double samplePeriod = _feat.FrameShiftSeconds;
+            formsPlotFeat.Plot.Add.Signal(values, samplePeriod);
+            formsPlotFeat.Plot.Title(title);
+            formsPlotFeat.Plot.XLabel("Time (s)");
+            formsPlotFeat.Plot.YLabel(ylabel);
+            formsPlotFeat.Plot.Axes.AutoScale();
+            formsPlotFeat.Refresh();
+        }
+
+        private void RecomputeAndRefresh()
+        {
+            if (_wav == null)
+                return;
+
+            int frameMs = 20;
+            _frameSize = Framing.FrameSizeFromMs(_wav.SampleRate, frameMs);
+            _hop = _frameSize / 2;
+
+            _frames = Framing.MakeFrames(_wav.SamplesMono, _frameSize, _hop, applyHamming: true);
+
+            _feat = FeatureExtractor.ExtractFeatures(
+                _frames,
+                _wav.SampleRate,
+                _hop,
+                normalizeVolume: chkNormalizeVolume.Checked,
+                thrVolNorm: 0.05,
+                thrZcr: 0.03);
+
+            _pitchAcf = PitchDetector.ComputeF0_Acf(_frames, _wav.SampleRate, _feat.IsSilence);
+            _pitchAmdf = PitchDetector.ComputeF0_Amdf(_frames, _wav.SampleRate, _feat.IsSilence);
+
+            SetupTrackBar();
+            RefreshAllPlots();
+        }
+
+        private void PlotPitchTrack(ScottPlot.WinForms.FormsPlot plot, double[] f0, string title)
+        {
+            plot.Plot.Clear();
+            double framePeriod = (double)_hop / _wav!.SampleRate;
+            plot.Plot.Add.Signal(f0, framePeriod);
+            plot.Plot.Title(title);
+            plot.Plot.XLabel("Time (s)");
+            plot.Plot.YLabel("F0 [Hz]");
+            plot.Plot.Axes.AutoScale();
+            plot.Refresh();
+        }
+
+        private void SetupTrackBar()
+        {
+            if (_frames == null || _frames.Length == 0)
+            {
+                trackFrame.Minimum = 0;
+                trackFrame.Maximum = 0;
+                trackFrame.Value = 0;
+                return;
+            }
+
+            trackFrame.Minimum = 0;
+            trackFrame.Maximum = _frames.Length - 1;
+            trackFrame.Value = 0;
+            trackFrame.SmallChange = 1;
+            trackFrame.LargeChange = Math.Max(1, _frames.Length / 20);
+        }
+
+        private void RefreshAllPlots()
+        {
+            if (_wav == null || _feat == null)
+                return;
+
+            PlotWaveformWithSelection();
+            PlotSelectedFeature();
+
+            if (_pitchAcf != null)
+                PlotPitchTrack(formsPlotAcf, _pitchAcf.F0Hz, "Pitch track - Autocorrelation");
+
+            if (_pitchAmdf != null)
+                PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
+
+            UpdateFrameDetails();
+        }
+
+    
+        private void chkSilence_CheckedChanged(object sender, EventArgs e)
+        {
+            RefreshAllPlots();
         }
 
         private void UpdateInfoPanel(WavData wav, string filePath)
@@ -187,9 +252,39 @@ namespace Audio_w_Czasie
             lblLenVal.Text = $"{wav.DurationSeconds:F2} s";
         }
 
+        private void UpdateFrameDetails()
+        {
+            if (_feat == null || _wav == null)
+            {
+                lblFramePos.Text = "Frame: -";
+                lblFrameDetails.Text = "No frame selected";
+                return;
+            }
+
+            int f = trackFrame.Value;
+            double t = (double)(f * _hop) / _wav.SampleRate;
+
+            lblFramePos.Text = $"Frame: {f}    Time: {t:F3} s";
+
+            string acfText = _pitchAcf != null
+                ? $"{_pitchAcf.F0Hz[f]:F1} Hz ({(_pitchAcf.IsVoiced[f] ? "voiced" : "unvoiced")})"
+                : "-";
+
+            string amdfText = _pitchAmdf != null
+                ? $"{_pitchAmdf.F0Hz[f]:F1} Hz ({(_pitchAmdf.IsVoiced[f] ? "voiced" : "unvoiced")})"
+                : "-";
+
+            lblFrameDetails.Text =
+                $"RMS={_feat.VolumeRms[f]:F4} | STE={_feat.Ste[f]:F4} | ZCR={_feat.Zcr[f]:F4} | " +
+                $"Silence={_feat.IsSilence[f]} | ACF={acfText} | AMDF={amdfText}";
+        }
+
         private void trackFrame_Scroll(object sender, EventArgs e)
         {
-
+            UpdateFrameDetails();
+            PlotWaveformWithSelection();
         }
+
+        
     }
 }
