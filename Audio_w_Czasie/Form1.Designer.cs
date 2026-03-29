@@ -47,10 +47,10 @@
             labelFsTitle = new Label();
             labelChTitle = new Label();
             optionsPanel = new FlowLayoutPanel();
-            chkNormalizeVolume = new CheckBox();
             chkSilence = new CheckBox();
-            cmbFeature = new ComboBox();
             lblFeature = new Label();
+            cmbFeature = new ComboBox();
+            chkNormalizeVolume = new CheckBox();
             tabControl1 = new TabControl();
             tabWave = new TabPage();
             formsPlotWave = new ScottPlot.WinForms.FormsPlot();
@@ -249,34 +249,34 @@
             // 
             // optionsPanel
             // 
-            optionsPanel.Controls.Add(chkNormalizeVolume);
             optionsPanel.Controls.Add(chkSilence);
-            optionsPanel.Controls.Add(cmbFeature);
+            optionsPanel.Controls.Add(chkNormalizeVolume);
             optionsPanel.Controls.Add(lblFeature);
+            optionsPanel.Controls.Add(cmbFeature);
             optionsPanel.Location = new Point(312, 45);
             optionsPanel.Name = "optionsPanel";
             optionsPanel.Size = new Size(322, 125);
             optionsPanel.TabIndex = 5;
             // 
-            // chkNormalizeVolume
-            // 
-            chkNormalizeVolume.AutoSize = true;
-            chkNormalizeVolume.Location = new Point(3, 3);
-            chkNormalizeVolume.Name = "chkNormalizeVolume";
-            chkNormalizeVolume.Size = new Size(153, 24);
-            chkNormalizeVolume.TabIndex = 6;
-            chkNormalizeVolume.Text = "Normalize volume";
-            chkNormalizeVolume.UseVisualStyleBackColor = true;
-            // 
             // chkSilence
             // 
             chkSilence.AutoSize = true;
-            chkSilence.Location = new Point(162, 3);
+            chkSilence.Location = new Point(3, 3);
             chkSilence.Name = "chkSilence";
             chkSilence.Size = new Size(116, 24);
             chkSilence.TabIndex = 7;
             chkSilence.Text = "Show silence";
             chkSilence.UseVisualStyleBackColor = true;
+            chkSilence.CheckedChanged += chkSilence_CheckedChanged;
+            // 
+            // lblFeature
+            // 
+            lblFeature.AutoSize = true;
+            lblFeature.Location = new Point(125, 0);
+            lblFeature.Name = "lblFeature";
+            lblFeature.Size = new Size(61, 20);
+            lblFeature.TabIndex = 10;
+            lblFeature.Text = "Feature:";
             // 
             // cmbFeature
             // 
@@ -287,15 +287,18 @@
             cmbFeature.Name = "cmbFeature";
             cmbFeature.Size = new Size(151, 28);
             cmbFeature.TabIndex = 6;
+            cmbFeature.SelectedIndexChanged += cmbFeature_SelectedIndexChanged;
             // 
-            // lblFeature
+            // chkNormalizeVolume
             // 
-            lblFeature.AutoSize = true;
-            lblFeature.Location = new Point(160, 30);
-            lblFeature.Name = "lblFeature";
-            lblFeature.Size = new Size(61, 20);
-            lblFeature.TabIndex = 10;
-            lblFeature.Text = "Feature:";
+            chkNormalizeVolume.AutoSize = true;
+            chkNormalizeVolume.Location = new Point(160, 33);
+            chkNormalizeVolume.Name = "chkNormalizeVolume";
+            chkNormalizeVolume.Size = new Size(153, 24);
+            chkNormalizeVolume.TabIndex = 6;
+            chkNormalizeVolume.Text = "Normalize volume";
+            chkNormalizeVolume.UseVisualStyleBackColor = true;
+            chkNormalizeVolume.CheckedChanged += chkNormalizeVolume_CheckedChanged;
             // 
             // tabControl1
             // 

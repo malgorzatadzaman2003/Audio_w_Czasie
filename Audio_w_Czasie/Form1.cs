@@ -243,6 +243,18 @@ namespace Audio_w_Czasie
             RefreshAllPlots();
         }
 
+        private void chkNormalizeVolume_CheckedChanged(object sender, EventArgs e)
+        {
+            RecomputeAndRefresh();
+        }
+
+        private void cmbFeature_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PlotSelectedFeature();
+        }
+
+
+
         private void UpdateInfoPanel(WavData wav, string filePath)
         {
             lblFileVal.Text = Path.GetFileName(filePath);
