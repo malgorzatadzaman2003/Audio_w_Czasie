@@ -28,46 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnLoad = new Button();
-            lblInfo = new Label();
-            formsPlotWave = new ScottPlot.WinForms.FormsPlot();
             menuStrip1 = new MenuStrip();
             fileToolStripMenuItem = new ToolStripMenuItem();
             openWAVToolStripMenuItem = new ToolStripMenuItem();
             exportCSVToolStripMenuItem = new ToolStripMenuItem();
             exitToolStripMenuItem = new ToolStripMenuItem();
-            formsPlotFeat = new ScottPlot.WinForms.FormsPlot();
+            pnlTop = new Panel();
+            grpInfo = new GroupBox();
+            tblInfo = new TableLayoutPanel();
+            lblLenVal = new Label();
+            labelLenTitle = new Label();
+            lblBitsVal = new Label();
+            labelBitsTitle = new Label();
+            lblChVal = new Label();
+            lblFsVal = new Label();
+            lblFileVal = new Label();
+            labelFileTitle = new Label();
+            labelFsTitle = new Label();
+            labelChTitle = new Label();
+            optionsPanel = new FlowLayoutPanel();
             chkNormalizeVolume = new CheckBox();
             chkSilence = new CheckBox();
+            cmbFeature = new ComboBox();
+            lblFeature = new Label();
+            tabControl1 = new TabControl();
+            tabWave = new TabPage();
+            formsPlotWave = new ScottPlot.WinForms.FormsPlot();
+            tabFeat = new TabPage();
+            formsPlotFeat = new ScottPlot.WinForms.FormsPlot();
+            tabAcf = new TabPage();
+            formsPlotAcf = new ScottPlot.WinForms.FormsPlot();
+            tabAmdf = new TabPage();
+            formsPlotAmdf = new ScottPlot.WinForms.FormsPlot();
+            bottomPanel = new Panel();
+            lblFramePos = new Label();
+            lblFrameDetails = new Label();
+            trackFrame = new TrackBar();
             menuStrip1.SuspendLayout();
+            pnlTop.SuspendLayout();
+            grpInfo.SuspendLayout();
+            tblInfo.SuspendLayout();
+            optionsPanel.SuspendLayout();
+            tabControl1.SuspendLayout();
+            tabWave.SuspendLayout();
+            tabFeat.SuspendLayout();
+            tabAcf.SuspendLayout();
+            tabAmdf.SuspendLayout();
+            bottomPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)trackFrame).BeginInit();
             SuspendLayout();
-            // 
-            // btnLoad
-            // 
-            btnLoad.Location = new Point(622, 118);
-            btnLoad.Name = "btnLoad";
-            btnLoad.Size = new Size(94, 29);
-            btnLoad.TabIndex = 0;
-            btnLoad.Text = "Load File";
-            btnLoad.UseVisualStyleBackColor = true;
-            btnLoad.Click += btnLoad_Click;
-            // 
-            // lblInfo
-            // 
-            lblInfo.AutoSize = true;
-            lblInfo.Location = new Point(622, 175);
-            lblInfo.Name = "lblInfo";
-            lblInfo.Size = new Size(50, 20);
-            lblInfo.TabIndex = 1;
-            lblInfo.Text = "label1";
-            // 
-            // formsPlotWave
-            // 
-            formsPlotWave.DisplayScale = 1.25F;
-            formsPlotWave.Location = new Point(0, 52);
-            formsPlotWave.Name = "formsPlotWave";
-            formsPlotWave.Size = new Size(575, 188);
-            formsPlotWave.TabIndex = 2;
             // 
             // menuStrip1
             // 
@@ -75,7 +84,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(800, 28);
+            menuStrip1.Size = new Size(944, 28);
             menuStrip1.TabIndex = 3;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -89,85 +98,400 @@
             // openWAVToolStripMenuItem
             // 
             openWAVToolStripMenuItem.Name = "openWAVToolStripMenuItem";
-            openWAVToolStripMenuItem.Size = new Size(224, 26);
+            openWAVToolStripMenuItem.Size = new Size(165, 26);
             openWAVToolStripMenuItem.Text = "Open WAV";
             openWAVToolStripMenuItem.Click += openWAVToolStripMenuItem_Click;
             // 
             // exportCSVToolStripMenuItem
             // 
             exportCSVToolStripMenuItem.Name = "exportCSVToolStripMenuItem";
-            exportCSVToolStripMenuItem.Size = new Size(224, 26);
+            exportCSVToolStripMenuItem.Size = new Size(165, 26);
             exportCSVToolStripMenuItem.Text = "Export CSV";
             exportCSVToolStripMenuItem.Click += exportCSVToolStripMenuItem_Click;
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(224, 26);
+            exitToolStripMenuItem.Size = new Size(165, 26);
             exitToolStripMenuItem.Text = "Exit";
             // 
-            // formsPlotFeat
+            // pnlTop
             // 
-            formsPlotFeat.DisplayScale = 1.25F;
-            formsPlotFeat.Location = new Point(0, 250);
-            formsPlotFeat.Name = "formsPlotFeat";
-            formsPlotFeat.Size = new Size(575, 188);
-            formsPlotFeat.TabIndex = 4;
+            pnlTop.Controls.Add(grpInfo);
+            pnlTop.Location = new Point(12, 31);
+            pnlTop.Name = "pnlTop";
+            pnlTop.Size = new Size(285, 139);
+            pnlTop.TabIndex = 4;
+            // 
+            // grpInfo
+            // 
+            grpInfo.Controls.Add(tblInfo);
+            grpInfo.Dock = DockStyle.Fill;
+            grpInfo.Location = new Point(0, 0);
+            grpInfo.Name = "grpInfo";
+            grpInfo.Size = new Size(285, 139);
+            grpInfo.TabIndex = 5;
+            grpInfo.TabStop = false;
+            grpInfo.Text = "Audio file information";
+            // 
+            // tblInfo
+            // 
+            tblInfo.ColumnCount = 2;
+            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tblInfo.Controls.Add(lblLenVal, 1, 4);
+            tblInfo.Controls.Add(labelLenTitle, 0, 4);
+            tblInfo.Controls.Add(lblBitsVal, 1, 3);
+            tblInfo.Controls.Add(labelBitsTitle, 0, 3);
+            tblInfo.Controls.Add(lblChVal, 1, 2);
+            tblInfo.Controls.Add(lblFsVal, 1, 1);
+            tblInfo.Controls.Add(lblFileVal, 1, 0);
+            tblInfo.Controls.Add(labelFileTitle, 0, 0);
+            tblInfo.Controls.Add(labelFsTitle, 0, 1);
+            tblInfo.Controls.Add(labelChTitle, 0, 2);
+            tblInfo.Dock = DockStyle.Fill;
+            tblInfo.Location = new Point(3, 23);
+            tblInfo.Name = "tblInfo";
+            tblInfo.RowCount = 5;
+            tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 47.727272F));
+            tblInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 52.272728F));
+            tblInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
+            tblInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
+            tblInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
+            tblInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 15F));
+            tblInfo.Size = new Size(279, 113);
+            tblInfo.TabIndex = 0;
+            // 
+            // lblLenVal
+            // 
+            lblLenVal.AutoSize = true;
+            lblLenVal.Location = new Point(142, 90);
+            lblLenVal.Name = "lblLenVal";
+            lblLenVal.Size = new Size(0, 20);
+            lblLenVal.TabIndex = 9;
+            // 
+            // labelLenTitle
+            // 
+            labelLenTitle.AutoSize = true;
+            labelLenTitle.Location = new Point(3, 90);
+            labelLenTitle.Name = "labelLenTitle";
+            labelLenTitle.Size = new Size(70, 20);
+            labelLenTitle.TabIndex = 8;
+            labelLenTitle.Text = "Duration:";
+            // 
+            // lblBitsVal
+            // 
+            lblBitsVal.AutoSize = true;
+            lblBitsVal.Location = new Point(142, 67);
+            lblBitsVal.Name = "lblBitsVal";
+            lblBitsVal.Size = new Size(0, 20);
+            lblBitsVal.TabIndex = 7;
+            // 
+            // labelBitsTitle
+            // 
+            labelBitsTitle.AutoSize = true;
+            labelBitsTitle.Location = new Point(3, 67);
+            labelBitsTitle.Name = "labelBitsTitle";
+            labelBitsTitle.Size = new Size(73, 20);
+            labelBitsTitle.TabIndex = 6;
+            labelBitsTitle.Text = "Bit depth:";
+            // 
+            // lblChVal
+            // 
+            lblChVal.AutoSize = true;
+            lblChVal.Location = new Point(142, 44);
+            lblChVal.Name = "lblChVal";
+            lblChVal.Size = new Size(0, 20);
+            lblChVal.TabIndex = 5;
+            // 
+            // lblFsVal
+            // 
+            lblFsVal.AutoSize = true;
+            lblFsVal.Location = new Point(142, 21);
+            lblFsVal.Name = "lblFsVal";
+            lblFsVal.Size = new Size(0, 20);
+            lblFsVal.TabIndex = 4;
+            // 
+            // lblFileVal
+            // 
+            lblFileVal.AutoSize = true;
+            lblFileVal.Location = new Point(142, 0);
+            lblFileVal.Name = "lblFileVal";
+            lblFileVal.Size = new Size(0, 20);
+            lblFileVal.TabIndex = 3;
+            // 
+            // labelFileTitle
+            // 
+            labelFileTitle.AutoSize = true;
+            labelFileTitle.Location = new Point(3, 0);
+            labelFileTitle.Name = "labelFileTitle";
+            labelFileTitle.Size = new Size(35, 20);
+            labelFileTitle.TabIndex = 0;
+            labelFileTitle.Text = "File:";
+            // 
+            // labelFsTitle
+            // 
+            labelFsTitle.AutoSize = true;
+            labelFsTitle.Location = new Point(3, 21);
+            labelFsTitle.Name = "labelFsTitle";
+            labelFsTitle.Size = new Size(92, 20);
+            labelFsTitle.TabIndex = 1;
+            labelFsTitle.Text = "Sample rate:";
+            // 
+            // labelChTitle
+            // 
+            labelChTitle.AutoSize = true;
+            labelChTitle.Location = new Point(3, 44);
+            labelChTitle.Name = "labelChTitle";
+            labelChTitle.Size = new Size(71, 20);
+            labelChTitle.TabIndex = 2;
+            labelChTitle.Text = "Channels:";
+            // 
+            // optionsPanel
+            // 
+            optionsPanel.Controls.Add(chkNormalizeVolume);
+            optionsPanel.Controls.Add(chkSilence);
+            optionsPanel.Controls.Add(cmbFeature);
+            optionsPanel.Controls.Add(lblFeature);
+            optionsPanel.Location = new Point(312, 45);
+            optionsPanel.Name = "optionsPanel";
+            optionsPanel.Size = new Size(322, 125);
+            optionsPanel.TabIndex = 5;
             // 
             // chkNormalizeVolume
             // 
             chkNormalizeVolume.AutoSize = true;
-            chkNormalizeVolume.Location = new Point(615, 280);
+            chkNormalizeVolume.Location = new Point(3, 3);
             chkNormalizeVolume.Name = "chkNormalizeVolume";
-            chkNormalizeVolume.Size = new Size(150, 24);
-            chkNormalizeVolume.TabIndex = 5;
-            chkNormalizeVolume.Text = "NormalizeVolume";
+            chkNormalizeVolume.Size = new Size(153, 24);
+            chkNormalizeVolume.TabIndex = 6;
+            chkNormalizeVolume.Text = "Normalize volume";
             chkNormalizeVolume.UseVisualStyleBackColor = true;
             // 
             // chkSilence
             // 
             chkSilence.AutoSize = true;
-            chkSilence.Location = new Point(615, 322);
+            chkSilence.Location = new Point(162, 3);
             chkSilence.Name = "chkSilence";
-            chkSilence.Size = new Size(78, 24);
-            chkSilence.TabIndex = 6;
-            chkSilence.Text = "Silence";
+            chkSilence.Size = new Size(116, 24);
+            chkSilence.TabIndex = 7;
+            chkSilence.Text = "Show silence";
             chkSilence.UseVisualStyleBackColor = true;
-            chkSilence.CheckedChanged += chkSilence_CheckedChanged;
+            // 
+            // cmbFeature
+            // 
+            cmbFeature.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbFeature.FormattingEnabled = true;
+            cmbFeature.Items.AddRange(new object[] { "Volume RMS", "STE", "ZCR" });
+            cmbFeature.Location = new Point(3, 33);
+            cmbFeature.Name = "cmbFeature";
+            cmbFeature.Size = new Size(151, 28);
+            cmbFeature.TabIndex = 6;
+            // 
+            // lblFeature
+            // 
+            lblFeature.AutoSize = true;
+            lblFeature.Location = new Point(160, 30);
+            lblFeature.Name = "lblFeature";
+            lblFeature.Size = new Size(61, 20);
+            lblFeature.TabIndex = 10;
+            lblFeature.Text = "Feature:";
+            // 
+            // tabControl1
+            // 
+            tabControl1.Controls.Add(tabWave);
+            tabControl1.Controls.Add(tabFeat);
+            tabControl1.Controls.Add(tabAcf);
+            tabControl1.Controls.Add(tabAmdf);
+            tabControl1.Location = new Point(12, 210);
+            tabControl1.Name = "tabControl1";
+            tabControl1.SelectedIndex = 0;
+            tabControl1.Size = new Size(900, 300);
+            tabControl1.TabIndex = 6;
+            // 
+            // tabWave
+            // 
+            tabWave.Controls.Add(formsPlotWave);
+            tabWave.Location = new Point(4, 29);
+            tabWave.Name = "tabWave";
+            tabWave.Padding = new Padding(3);
+            tabWave.Size = new Size(892, 267);
+            tabWave.TabIndex = 0;
+            tabWave.Text = "Waveform";
+            tabWave.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotWave
+            // 
+            formsPlotWave.Dock = DockStyle.Fill;
+            formsPlotWave.Location = new Point(3, 3);
+            formsPlotWave.Name = "formsPlotWave";
+            formsPlotWave.Size = new Size(886, 261);
+            formsPlotWave.TabIndex = 0;
+            // 
+            // tabFeat
+            // 
+            tabFeat.Controls.Add(formsPlotFeat);
+            tabFeat.Location = new Point(4, 29);
+            tabFeat.Name = "tabFeat";
+            tabFeat.Padding = new Padding(3);
+            tabFeat.Size = new Size(892, 267);
+            tabFeat.TabIndex = 1;
+            tabFeat.Text = "Frame features";
+            tabFeat.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotFeat
+            // 
+            formsPlotFeat.Dock = DockStyle.Fill;
+            formsPlotFeat.Location = new Point(3, 3);
+            formsPlotFeat.Name = "formsPlotFeat";
+            formsPlotFeat.Size = new Size(886, 261);
+            formsPlotFeat.TabIndex = 0;
+            // 
+            // tabAcf
+            // 
+            tabAcf.Controls.Add(formsPlotAcf);
+            tabAcf.Location = new Point(4, 29);
+            tabAcf.Name = "tabAcf";
+            tabAcf.Padding = new Padding(3);
+            tabAcf.Size = new Size(892, 267);
+            tabAcf.TabIndex = 2;
+            tabAcf.Text = "Pitch ACF";
+            tabAcf.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotAcf
+            // 
+            formsPlotAcf.Dock = DockStyle.Fill;
+            formsPlotAcf.Location = new Point(3, 3);
+            formsPlotAcf.Name = "formsPlotAcf";
+            formsPlotAcf.Size = new Size(886, 261);
+            formsPlotAcf.TabIndex = 0;
+            // 
+            // tabAmdf
+            // 
+            tabAmdf.Controls.Add(formsPlotAmdf);
+            tabAmdf.Location = new Point(4, 29);
+            tabAmdf.Name = "tabAmdf";
+            tabAmdf.Padding = new Padding(3);
+            tabAmdf.Size = new Size(892, 267);
+            tabAmdf.TabIndex = 3;
+            tabAmdf.Text = "Pitch AMDF";
+            tabAmdf.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotAmdf
+            // 
+            formsPlotAmdf.Dock = DockStyle.Fill;
+            formsPlotAmdf.Location = new Point(3, 3);
+            formsPlotAmdf.Name = "formsPlotAmdf";
+            formsPlotAmdf.Size = new Size(886, 261);
+            formsPlotAmdf.TabIndex = 0;
+            // 
+            // bottomPanel
+            // 
+            bottomPanel.Controls.Add(lblFramePos);
+            bottomPanel.Controls.Add(lblFrameDetails);
+            bottomPanel.Controls.Add(trackFrame);
+            bottomPanel.Dock = DockStyle.Bottom;
+            bottomPanel.Location = new Point(0, 541);
+            bottomPanel.Name = "bottomPanel";
+            bottomPanel.Size = new Size(944, 84);
+            bottomPanel.TabIndex = 7;
+            // 
+            // lblFramePos
+            // 
+            lblFramePos.AutoSize = true;
+            lblFramePos.Location = new Point(0, 36);
+            lblFramePos.Name = "lblFramePos";
+            lblFramePos.Size = new Size(164, 20);
+            lblFramePos.TabIndex = 2;
+            lblFramePos.Text = "Frame: 0 / Time: 0.000 s";
+            // 
+            // lblFrameDetails
+            // 
+            lblFrameDetails.Dock = DockStyle.Bottom;
+            lblFrameDetails.Location = new Point(0, 59);
+            lblFrameDetails.Name = "lblFrameDetails";
+            lblFrameDetails.Size = new Size(944, 25);
+            lblFrameDetails.TabIndex = 1;
+            lblFrameDetails.Text = "No frame selected";
+            // 
+            // trackFrame
+            // 
+            trackFrame.Dock = DockStyle.Top;
+            trackFrame.Location = new Point(0, 0);
+            trackFrame.Name = "trackFrame";
+            trackFrame.Size = new Size(944, 56);
+            trackFrame.TabIndex = 0;
+            trackFrame.Scroll += trackFrame_Scroll;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(chkSilence);
-            Controls.Add(chkNormalizeVolume);
-            Controls.Add(formsPlotFeat);
-            Controls.Add(formsPlotWave);
-            Controls.Add(lblInfo);
-            Controls.Add(btnLoad);
+            ClientSize = new Size(944, 625);
+            Controls.Add(bottomPanel);
+            Controls.Add(tabControl1);
+            Controls.Add(optionsPanel);
+            Controls.Add(pnlTop);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Cechy Sygnału Audio w Czasie";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            pnlTop.ResumeLayout(false);
+            grpInfo.ResumeLayout(false);
+            tblInfo.ResumeLayout(false);
+            tblInfo.PerformLayout();
+            optionsPanel.ResumeLayout(false);
+            optionsPanel.PerformLayout();
+            tabControl1.ResumeLayout(false);
+            tabWave.ResumeLayout(false);
+            tabFeat.ResumeLayout(false);
+            tabAcf.ResumeLayout(false);
+            tabAmdf.ResumeLayout(false);
+            bottomPanel.ResumeLayout(false);
+            bottomPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)trackFrame).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private Button btnLoad;
-        private Label lblInfo;
-        private ScottPlot.WinForms.FormsPlot formsPlotWave;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openWAVToolStripMenuItem;
         private ToolStripMenuItem exportCSVToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
-        private ScottPlot.WinForms.FormsPlot formsPlotFeat;
+        private Panel pnlTop;
+        private GroupBox grpInfo;
+        private TableLayoutPanel tblInfo;
+        private Label labelFileTitle;
+        private Label lblFileVal;
+        private Label labelFsTitle;
+        private Label labelChTitle;
+        private Label labelLenTitle;
+        private Label lblBitsVal;
+        private Label labelBitsTitle;
+        private Label lblChVal;
+        private Label lblFsVal;
+        private Label lblLenVal;
+        private Label lblFeature;
+        private FlowLayoutPanel optionsPanel;
         private CheckBox chkNormalizeVolume;
         private CheckBox chkSilence;
+        private ComboBox cmbFeature;
+        private TabControl tabControl1;
+        private TabPage tabWave;
+        private TabPage tabFeat;
+        private TabPage tabAcf;
+        private TabPage tabAmdf;
+        private ScottPlot.WinForms.FormsPlot formsPlotWave;
+        private ScottPlot.WinForms.FormsPlot formsPlotFeat;
+        private ScottPlot.WinForms.FormsPlot formsPlotAcf;
+        private ScottPlot.WinForms.FormsPlot formsPlotAmdf;
+        private Panel bottomPanel;
+        private Label lblFramePos;
+        private Label lblFrameDetails;
+        private TrackBar trackFrame;
     }
 }

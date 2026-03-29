@@ -1,6 +1,7 @@
 using Audio_w_Czasie.Audio;
 using Audio_w_Czasie.DSP;
 using Audio_w_Czasie.Export;
+using System.IO;
 
 namespace Audio_w_Czasie
 {
@@ -12,28 +13,13 @@ namespace Audio_w_Czasie
         private float[][]? _frames;
         private int _frameSize, _hop;
 
+        private PitchTrack? _pitchAcf;
+        private PitchTrack? _pitchAmdf;
+
 
         public Form1()
         {
             InitializeComponent();
-        }
-
-        private void btnLoad_Click(object sender, EventArgs e)
-        {
-            using var ofd = new OpenFileDialog();
-            ofd.Filter = "WAV files (*.wav)|*.wav";
-            if (ofd.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
-
-            _wav = WavReader.ReadPcm16(ofd.FileName);
-
-            lblInfo.Text = $"fs={_wav.SampleRate} Hz, ch={_wav.Channels}, bits={_wav.BitsPerSample}, " +
-                           $"len={_wav.DurationSeconds:F2}s";
-
-            PlotWaveform(_wav);
-            ComputeAndPlotFeatures();
         }
 
         private void PlotWaveform(WavData wav)
@@ -137,11 +123,6 @@ namespace Audio_w_Czasie
             formsPlotWave.Refresh();
         }
 
-        private void openWAVToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void chkSilence_CheckedChanged(object sender, EventArgs e)
         {
             if (_wav == null) return;
@@ -155,6 +136,18 @@ namespace Audio_w_Czasie
             {
                 PlotWaveform(_wav); // redraw without rectangles
             }
+        }
+
+        private void openWAVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using var ofd = new OpenFileDialog();
+            ofd.Filter = "WAV files (*.wav)|*.wav";
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            _wav = WavReader.ReadPcm16(ofd.FileName);
+            UpdateInfoPanel(_wav, ofd.FileName);
+            //RecomputeAndRefresh();
         }
 
         private void exportCSVToolStripMenuItem_Click(object sender, EventArgs e)
@@ -183,6 +176,20 @@ namespace Audio_w_Czasie
             );
 
             MessageBox.Show("CSV exported successfully.");
+        }
+
+        private void UpdateInfoPanel(WavData wav, string filePath)
+        {
+            lblFileVal.Text = Path.GetFileName(filePath);
+            lblFsVal.Text = $"{wav.SampleRate} Hz";
+            lblChVal.Text = wav.Channels == 1 ? "Mono" : $"Stereo ({wav.Channels})";
+            lblBitsVal.Text = $"{wav.BitsPerSample}-bit";
+            lblLenVal.Text = $"{wav.DurationSeconds:F2} s";
+        }
+
+        private void trackFrame_Scroll(object sender, EventArgs e)
+        {
+
         }
     }
 }
