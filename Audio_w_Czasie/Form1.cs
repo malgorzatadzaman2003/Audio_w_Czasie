@@ -158,6 +158,15 @@ namespace Audio_w_Czasie
 
             double samplePeriod = _feat.FrameShiftSeconds;
             formsPlotFeat.Plot.Add.Signal(values, samplePeriod);
+
+            // highlight selected frame
+            int f = trackFrame.Value;
+            double t = f * samplePeriod;
+
+            var line = formsPlotFeat.Plot.Add.VerticalLine(t);
+            line.LineWidth = 2;
+            line.Color = ScottPlot.Colors.Red;
+
             formsPlotFeat.Plot.Title(title);
             formsPlotFeat.Plot.XLabel("Time (s)");
             formsPlotFeat.Plot.YLabel(ylabel);
@@ -295,6 +304,7 @@ namespace Audio_w_Czasie
         {
             UpdateFrameDetails();
             PlotWaveformWithSelection();
+            PlotSelectedFeature();
         }
 
         
