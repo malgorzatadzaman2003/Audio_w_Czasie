@@ -15,7 +15,7 @@ namespace Audio_w_Czasie.DSP
     public static class PitchDetector
     {
         public static PitchTrack ComputeF0_Acf(float[][] frames, int sampleRate, bool[] isSilence,
-                                               double minF0 = 50, double maxF0 = 400, double thrCorr = 0.35)
+                                               double minF0 = 80, double maxF0 = 300, double thrCorr = 0.35)
         {
             int frameCount = frames.Length;
             var f0 = new double[frameCount];
@@ -90,7 +90,7 @@ namespace Audio_w_Czasie.DSP
         }
 
         public static PitchTrack ComputeF0_Amdf(float[][] frames, int sampleRate, bool[] isSilence,
-                                                double minF0 = 50, double maxF0 = 400, double thrMinRatio = 0.7)
+                                                double minF0 = 80, double maxF0 = 300, double thrMinRatio = 0.7)
         {
             int frameCount = frames.Length;
             var f0 = new double[frameCount];

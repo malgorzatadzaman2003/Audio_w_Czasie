@@ -21,20 +21,37 @@ namespace Audio_w_Czasie
         public Form1()
         {
             InitializeComponent();
+            cmbFeature.SelectedIndex = 0;
         }
 
+        public void LoadWavFile(string path)
+        {
+            _wav = WavReader.ReadPcm16(path);
+            _loadedWavPath = path;
+
+            UpdateInfoPanel(_wav, path);
+            RecomputeAndRefresh();
+        }
         private void openWAVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using var ofd = new OpenFileDialog();
             ofd.Filter = "WAV files (*.wav)|*.wav";
+
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            _wav = WavReader.ReadPcm16(ofd.FileName);
-            _loadedWavPath = ofd.FileName;
-
-            UpdateInfoPanel(_wav, ofd.FileName);
-            RecomputeAndRefresh();
+            if (_wav == null)
+            {
+                // current window is empty -> load here
+                LoadWavFile(ofd.FileName);
+            }
+            else
+            {
+                // current window already has a file -> open new window
+                var newForm = new Form1();
+                newForm.LoadWavFile(ofd.FileName);
+                newForm.Show();
+            }
         }
 
         private void exportCSVToolStripMenuItem_Click(object sender, EventArgs e)
