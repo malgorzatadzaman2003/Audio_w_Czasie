@@ -232,12 +232,28 @@ namespace Audio_w_Czasie
         private void PlotPitchTrack(ScottPlot.WinForms.FormsPlot plot, double[] f0, string title)
         {
             plot.Plot.Clear();
+
             double framePeriod = (double)_hop / _wav!.SampleRate;
-            plot.Plot.Add.Signal(f0, framePeriod);
+
+            double[] xs = new double[f0.Length];
+            for (int i = 0; i < f0.Length; i++)
+                xs[i] = i * framePeriod;
+
+            var sc = plot.Plot.Add.Scatter(xs, f0);
+            sc.LineWidth = 2;
+            sc.MarkerSize = 4;
+
+            int f = trackFrame.Value;
+            double t = f * framePeriod;
+
+            var line = plot.Plot.Add.VerticalLine(t);
+            line.LineWidth = 2;
+            line.Color = ScottPlot.Colors.Red;
+
             plot.Plot.Title(title);
             plot.Plot.XLabel("Time (s)");
             plot.Plot.YLabel("F0 [Hz]");
-            plot.Plot.Axes.AutoScale();
+            plot.Plot.Axes.SetLimitsY(0, 350);
             plot.Refresh();
         }
 
@@ -316,13 +332,21 @@ namespace Audio_w_Czasie
 
             lblFramePos.Text = $"Frame: {f}    Time: {t:F3} s";
 
-            string acfText = _pitchAcf != null
-                ? $"{_pitchAcf.F0Hz[f]:F1} Hz ({(_pitchAcf.IsVoiced[f] ? "voiced" : "unvoiced")})"
-                : "-";
+            string acfText = "-";
+            if (_pitchAcf != null)
+            {
+                acfText = double.IsNaN(_pitchAcf.F0Hz[f])
+                    ? "unvoiced"
+                    : $"{_pitchAcf.F0Hz[f]:F1} Hz ({(_pitchAcf.IsVoiced[f] ? "voiced" : "unvoiced")})";
+            }
 
-            string amdfText = _pitchAmdf != null
-                ? $"{_pitchAmdf.F0Hz[f]:F1} Hz ({(_pitchAmdf.IsVoiced[f] ? "voiced" : "unvoiced")})"
-                : "-";
+            string amdfText = "-";
+            if (_pitchAmdf != null)
+            {
+                amdfText = double.IsNaN(_pitchAmdf.F0Hz[f])
+                    ? "unvoiced"
+                    : $"{_pitchAmdf.F0Hz[f]:F1} Hz ({(_pitchAmdf.IsVoiced[f] ? "voiced" : "unvoiced")})";
+            }
 
             lblFrameDetails.Text =
                 $"RMS={_feat.VolumeRms[f]:F4} | STE={_feat.Ste[f]:F4} | ZCR={_feat.Zcr[f]:F4} | " +
@@ -334,8 +358,14 @@ namespace Audio_w_Czasie
             UpdateFrameDetails();
             PlotWaveformWithSelection();
             PlotSelectedFeature();
+
+            if (_pitchAcf != null)
+                PlotPitchTrack(formsPlotAcf, _pitchAcf.F0Hz, "Pitch track - Autocorrelation");
+
+            if (_pitchAmdf != null)
+                PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
         }
 
-        
+
     }
 }
