@@ -52,27 +52,50 @@ namespace Audio_w_Czasie.DSP
                     continue;
                 }
 
-                double bestR = double.NegativeInfinity;
+                int lMax = Math.Min(lagMax, N - 2); // ważne: -2 (bo lag+1)
+
+                double prev = 0;
+                double curr = 0;
+
+                // start
+                int lag = lagMin;
+                {
+                    double r = 0;
+                    for (int i = 0; i < N - lag; i++)
+                        r += x[i] * x[i + lag];
+                    prev = r / r0;
+                }
+
                 int bestLag = 0;
 
-                int lMax = Math.Min(lagMax, N - 1);
-
-                for (int lag = lagMin; lag <= lMax; lag++)
+                for (lag = lagMin + 1; lag <= lMax; lag++)
                 {
-                    double r = 0.0;
+                    double r = 0;
                     for (int i = 0; i < N - lag; i++)
                         r += x[i] * x[i + lag];
 
-                    double rNorm = r / r0;
+                    curr = r / r0;
 
-                    if (rNorm > bestR)
+                    double next;
                     {
-                        bestR = rNorm;
-                        bestLag = lag;
+                        double rNext = 0;
+                        for (int i = 0; i < N - (lag + 1); i++)
+                            rNext += x[i] * x[i + lag + 1];
+
+                        next = rNext / r0;
                     }
+
+                    //maksimum lokalne
+                    if (curr > prev && curr > next && curr > thrCorr)
+                    {
+                        bestLag = lag;
+                        break;
+                    }
+
+                    prev = curr;
                 }
 
-                if (bestLag == 0 || bestR < thrCorr)
+                if (bestLag == 0)
                 {
                     f0[f] = double.NaN;
                     voiced[f] = false;

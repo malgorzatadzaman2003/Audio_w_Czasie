@@ -225,6 +225,10 @@ namespace Audio_w_Czasie
             _pitchAcf = PitchDetector.ComputeF0_Acf(_frames, _wav.SampleRate, _feat.IsSilence);
             _pitchAmdf = PitchDetector.ComputeF0_Amdf(_frames, _wav.SampleRate, _feat.IsSilence);
 
+            string gender = ClassifyGender(_pitchAcf);
+
+            MessageBox.Show(gender);
+
             SetupTrackBar();
             RefreshAllPlots();
         }
@@ -255,6 +259,36 @@ namespace Audio_w_Czasie
             plot.Plot.YLabel("F0 [Hz]");
             plot.Plot.Axes.SetLimitsY(0, 350);
             plot.Refresh();
+        }
+
+        private string ClassifyGender(PitchTrack pitch)
+        {
+            var voicedF0 = new List<double>();
+
+            for (int i = 0; i < pitch.F0Hz.Length; i++)
+            {
+                if (pitch.IsVoiced[i] && pitch.F0Hz[i] > 0)
+                {
+                    voicedF0.Add(pitch.F0Hz[i]);
+                }
+            }
+
+            if (voicedF0.Count == 0)
+                return "Unknown";
+
+            var sorted = voicedF0.OrderBy(x => x).ToArray();
+            double median;
+
+            int mid = sorted.Length / 2;
+            if (sorted.Length % 2 == 0)
+                median = (sorted[mid - 1] + sorted[mid]) / 2.0;
+            else
+                median = sorted[mid];
+
+            if (median < 165)
+                return $"Male ({median:F1} Hz)";
+            else
+                return $"Female ({median:F1} Hz)";
         }
 
         private void SetupTrackBar()

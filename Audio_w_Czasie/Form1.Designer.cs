@@ -48,9 +48,9 @@
             labelChTitle = new Label();
             optionsPanel = new FlowLayoutPanel();
             chkSilence = new CheckBox();
+            chkNormalizeVolume = new CheckBox();
             lblFeature = new Label();
             cmbFeature = new ComboBox();
-            chkNormalizeVolume = new CheckBox();
             tabControl1 = new TabControl();
             tabWave = new TabPage();
             formsPlotWave = new ScottPlot.WinForms.FormsPlot();
@@ -269,10 +269,21 @@
             chkSilence.UseVisualStyleBackColor = true;
             chkSilence.CheckedChanged += chkSilence_CheckedChanged;
             // 
+            // chkNormalizeVolume
+            // 
+            chkNormalizeVolume.AutoSize = true;
+            chkNormalizeVolume.Location = new Point(125, 3);
+            chkNormalizeVolume.Name = "chkNormalizeVolume";
+            chkNormalizeVolume.Size = new Size(153, 24);
+            chkNormalizeVolume.TabIndex = 6;
+            chkNormalizeVolume.Text = "Normalize volume";
+            chkNormalizeVolume.UseVisualStyleBackColor = true;
+            chkNormalizeVolume.CheckedChanged += chkNormalizeVolume_CheckedChanged;
+            // 
             // lblFeature
             // 
             lblFeature.AutoSize = true;
-            lblFeature.Location = new Point(125, 0);
+            lblFeature.Location = new Point(3, 30);
             lblFeature.Name = "lblFeature";
             lblFeature.Size = new Size(61, 20);
             lblFeature.TabIndex = 10;
@@ -283,22 +294,11 @@
             cmbFeature.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbFeature.FormattingEnabled = true;
             cmbFeature.Items.AddRange(new object[] { "Volume RMS", "STE", "ZCR" });
-            cmbFeature.Location = new Point(3, 33);
+            cmbFeature.Location = new Point(70, 33);
             cmbFeature.Name = "cmbFeature";
             cmbFeature.Size = new Size(151, 28);
             cmbFeature.TabIndex = 6;
             cmbFeature.SelectedIndexChanged += cmbFeature_SelectedIndexChanged;
-            // 
-            // chkNormalizeVolume
-            // 
-            chkNormalizeVolume.AutoSize = true;
-            chkNormalizeVolume.Location = new Point(160, 33);
-            chkNormalizeVolume.Name = "chkNormalizeVolume";
-            chkNormalizeVolume.Size = new Size(153, 24);
-            chkNormalizeVolume.TabIndex = 6;
-            chkNormalizeVolume.Text = "Normalize volume";
-            chkNormalizeVolume.UseVisualStyleBackColor = true;
-            chkNormalizeVolume.CheckedChanged += chkNormalizeVolume_CheckedChanged;
             // 
             // tabControl1
             // 
