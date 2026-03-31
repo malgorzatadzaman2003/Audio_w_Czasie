@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Audio_w_Czasie.DSP
 {
@@ -29,8 +30,8 @@ namespace Audio_w_Czasie.DSP
                 var x = frames[f];
                 int N = x.Length;
 
-                double sumSq = 0;
-                int crosses = 0;
+                double sumSq = 0; //sum of squared samples
+                int crosses = 0; //number of sign changes >> for ampliyude
 
                 float prev = x[0];
                 sumSq += prev * prev;

@@ -8,6 +8,7 @@ namespace Audio_w_Czasie
     public partial class Form1 : Form
     {
         private WavData? _wav;
+        private string? _loadedWavPath;
 
         private FrameFeatures? _feat;
         private float[][]? _frames;
@@ -30,6 +31,8 @@ namespace Audio_w_Czasie
                 return;
 
             _wav = WavReader.ReadPcm16(ofd.FileName);
+            _loadedWavPath = ofd.FileName;
+
             UpdateInfoPanel(_wav, ofd.FileName);
             RecomputeAndRefresh();
         }
@@ -42,9 +45,18 @@ namespace Audio_w_Czasie
                 return;
             }
 
+            string defaultBaseName = "audio";
+
+            if (!string.IsNullOrWhiteSpace(_loadedWavPath))
+            {
+                defaultBaseName = Path.GetFileNameWithoutExtension(_loadedWavPath);
+            }
+
             using var sfd = new SaveFileDialog();
             sfd.Filter = "CSV files (*.csv)|*.csv";
-            sfd.FileName = "frame_features.csv";
+            sfd.DefaultExt = "csv";
+            sfd.AddExtension = true;
+            sfd.FileName = $"{defaultBaseName}_features.csv";
 
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
