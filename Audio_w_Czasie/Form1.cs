@@ -30,7 +30,7 @@ namespace Audio_w_Czasie
             _loadedWavPath = path;
 
             UpdateInfoPanel(_wav, path);
-            RecomputeAndRefresh();
+            RecomputeAndRefresh(); // 
         }
         private void openWAVToolStripMenuItem_Click(object sender, EventArgs e)
         {
