@@ -18,7 +18,7 @@ namespace Audio_w_Czasie.DSP
 
     public static class FeatureExtractor
     {
-        public static FrameFeatures ExtractFeatures(float[][] frames, int sampleRate, int hopSize, bool normalizeVolume, double thrVolNorm = 0.05, double thrZcr = 0.03)
+        public static FrameFeatures ExtractFeatures(float[][] frames, int sampleRate, int hopSize, bool normalizeVolume, double thrVolNorm = 0.02, double thrZcr = 0.03)
         {
             int frameCount = frames.Length;
             var vol = new double[frameCount];

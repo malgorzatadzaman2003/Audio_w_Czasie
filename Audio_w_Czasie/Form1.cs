@@ -227,7 +227,8 @@ namespace Audio_w_Czasie
 
             string gender = ClassifyGender(_pitchAcf);
 
-            MessageBox.Show(gender);
+            lblGender.Text = gender;
+           
 
             SetupTrackBar();
             RefreshAllPlots();

@@ -32,7 +32,6 @@
             fileToolStripMenuItem = new ToolStripMenuItem();
             openWAVToolStripMenuItem = new ToolStripMenuItem();
             exportCSVToolStripMenuItem = new ToolStripMenuItem();
-            exitToolStripMenuItem = new ToolStripMenuItem();
             pnlTop = new Panel();
             grpInfo = new GroupBox();
             tblInfo = new TableLayoutPanel();
@@ -51,6 +50,7 @@
             chkNormalizeVolume = new CheckBox();
             lblFeature = new Label();
             cmbFeature = new ComboBox();
+            lblGender = new Label();
             tabControl1 = new TabControl();
             tabWave = new TabPage();
             formsPlotWave = new ScottPlot.WinForms.FormsPlot();
@@ -90,7 +90,7 @@
             // 
             // fileToolStripMenuItem
             // 
-            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openWAVToolStripMenuItem, exportCSVToolStripMenuItem, exitToolStripMenuItem });
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openWAVToolStripMenuItem, exportCSVToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "File";
@@ -108,12 +108,6 @@
             exportCSVToolStripMenuItem.Size = new Size(165, 26);
             exportCSVToolStripMenuItem.Text = "Export CSV";
             exportCSVToolStripMenuItem.Click += exportCSVToolStripMenuItem_Click;
-            // 
-            // exitToolStripMenuItem
-            // 
-            exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(165, 26);
-            exitToolStripMenuItem.Text = "Exit";
             // 
             // pnlTop
             // 
@@ -253,6 +247,7 @@
             optionsPanel.Controls.Add(chkNormalizeVolume);
             optionsPanel.Controls.Add(lblFeature);
             optionsPanel.Controls.Add(cmbFeature);
+            optionsPanel.Controls.Add(lblGender);
             optionsPanel.Location = new Point(312, 45);
             optionsPanel.Name = "optionsPanel";
             optionsPanel.Size = new Size(322, 125);
@@ -299,6 +294,15 @@
             cmbFeature.Size = new Size(151, 28);
             cmbFeature.TabIndex = 6;
             cmbFeature.SelectedIndexChanged += cmbFeature_SelectedIndexChanged;
+            // 
+            // lblGender
+            // 
+            lblGender.AutoSize = true;
+            lblGender.Location = new Point(227, 30);
+            lblGender.Name = "lblGender";
+            lblGender.Size = new Size(0, 23);
+            lblGender.TabIndex = 11;
+            lblGender.UseCompatibleTextRendering = true;
             // 
             // tabControl1
             // 
@@ -464,7 +468,6 @@
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openWAVToolStripMenuItem;
         private ToolStripMenuItem exportCSVToolStripMenuItem;
-        private ToolStripMenuItem exitToolStripMenuItem;
         private Panel pnlTop;
         private GroupBox grpInfo;
         private TableLayoutPanel tblInfo;
@@ -496,5 +499,6 @@
         private Label lblFramePos;
         private Label lblFrameDetails;
         private TrackBar trackFrame;
+        private Label lblGender;
     }
 }
