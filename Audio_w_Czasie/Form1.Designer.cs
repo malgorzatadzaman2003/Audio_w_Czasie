@@ -60,6 +60,12 @@
             formsPlotAcf = new ScottPlot.WinForms.FormsPlot();
             tabAmdf = new TabPage();
             formsPlotAmdf = new ScottPlot.WinForms.FormsPlot();
+            tabFft = new TabPage();
+            formsPlotFft = new ScottPlot.WinForms.FormsPlot();
+            tabWindowTime = new TabPage();
+            formsPlotWindowTime = new ScottPlot.WinForms.FormsPlot();
+            tabCepstrum = new TabPage();
+            formsPlotCepstrum = new ScottPlot.WinForms.FormsPlot();
             bottomPanel = new Panel();
             lblFramePos = new Label();
             lblFrameDetails = new Label();
@@ -72,12 +78,27 @@
             label3 = new Label();
             chkUseWholeSignalFft = new CheckBox();
             btnComputeSpectrogram = new Button();
-            tabFft = new TabPage();
-            tabWindowTime = new TabPage();
-            tabCepstrum = new TabPage();
-            formsPlotFft = new ScottPlot.WinForms.FormsPlot();
-            formsPlotWindowTime = new ScottPlot.WinForms.FormsPlot();
-            formsPlotCepstrum = new ScottPlot.WinForms.FormsPlot();
+            label4 = new Label();
+            labell = new Label();
+            labelll = new Label();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
+            label8 = new Label();
+            label9 = new Label();
+            label10 = new Label();
+            label11 = new Label();
+            label12 = new Label();
+            lblSpectralVolumeVal = new Label();
+            lblCentroidVal = new Label();
+            lblBandwidthVal = new Label();
+            lblFlatnessVal = new Label();
+            lblCrestVal = new Label();
+            lblBand1Val = new Label();
+            lblBand2Val = new Label();
+            lblBand3Val = new Label();
+            lblBand4Val = new Label();
+            lblCepstrumF0Val = new Label();
             menuStrip1.SuspendLayout();
             pnlTop.SuspendLayout();
             grpInfo.SuspendLayout();
@@ -88,13 +109,13 @@
             tabFeat.SuspendLayout();
             tabAcf.SuspendLayout();
             tabAmdf.SuspendLayout();
+            tabFft.SuspendLayout();
+            tabWindowTime.SuspendLayout();
+            tabCepstrum.SuspendLayout();
             bottomPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackFrame).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFrameMs).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudOverlapPercent).BeginInit();
-            tabFft.SuspendLayout();
-            tabWindowTime.SuspendLayout();
-            tabCepstrum.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -103,7 +124,7 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(944, 28);
+            menuStrip1.Size = new Size(1254, 28);
             menuStrip1.TabIndex = 3;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -335,7 +356,7 @@
             tabControl1.Location = new Point(12, 210);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(900, 300);
+            tabControl1.Size = new Size(920, 300);
             tabControl1.TabIndex = 6;
             // 
             // tabWave
@@ -344,7 +365,7 @@
             tabWave.Location = new Point(4, 29);
             tabWave.Name = "tabWave";
             tabWave.Padding = new Padding(3);
-            tabWave.Size = new Size(892, 267);
+            tabWave.Size = new Size(912, 267);
             tabWave.TabIndex = 0;
             tabWave.Text = "Waveform";
             tabWave.UseVisualStyleBackColor = true;
@@ -354,7 +375,7 @@
             formsPlotWave.Dock = DockStyle.Fill;
             formsPlotWave.Location = new Point(3, 3);
             formsPlotWave.Name = "formsPlotWave";
-            formsPlotWave.Size = new Size(886, 261);
+            formsPlotWave.Size = new Size(906, 261);
             formsPlotWave.TabIndex = 0;
             // 
             // tabFeat
@@ -363,7 +384,7 @@
             tabFeat.Location = new Point(4, 29);
             tabFeat.Name = "tabFeat";
             tabFeat.Padding = new Padding(3);
-            tabFeat.Size = new Size(892, 267);
+            tabFeat.Size = new Size(912, 267);
             tabFeat.TabIndex = 1;
             tabFeat.Text = "Frame features";
             tabFeat.UseVisualStyleBackColor = true;
@@ -373,7 +394,7 @@
             formsPlotFeat.Dock = DockStyle.Fill;
             formsPlotFeat.Location = new Point(3, 3);
             formsPlotFeat.Name = "formsPlotFeat";
-            formsPlotFeat.Size = new Size(886, 261);
+            formsPlotFeat.Size = new Size(906, 261);
             formsPlotFeat.TabIndex = 0;
             // 
             // tabAcf
@@ -382,7 +403,7 @@
             tabAcf.Location = new Point(4, 29);
             tabAcf.Name = "tabAcf";
             tabAcf.Padding = new Padding(3);
-            tabAcf.Size = new Size(892, 267);
+            tabAcf.Size = new Size(912, 267);
             tabAcf.TabIndex = 2;
             tabAcf.Text = "Pitch ACF";
             tabAcf.UseVisualStyleBackColor = true;
@@ -392,7 +413,7 @@
             formsPlotAcf.Dock = DockStyle.Fill;
             formsPlotAcf.Location = new Point(3, 3);
             formsPlotAcf.Name = "formsPlotAcf";
-            formsPlotAcf.Size = new Size(886, 261);
+            formsPlotAcf.Size = new Size(906, 261);
             formsPlotAcf.TabIndex = 0;
             // 
             // tabAmdf
@@ -401,7 +422,7 @@
             tabAmdf.Location = new Point(4, 29);
             tabAmdf.Name = "tabAmdf";
             tabAmdf.Padding = new Padding(3);
-            tabAmdf.Size = new Size(892, 267);
+            tabAmdf.Size = new Size(912, 267);
             tabAmdf.TabIndex = 3;
             tabAmdf.Text = "Pitch AMDF";
             tabAmdf.UseVisualStyleBackColor = true;
@@ -411,8 +432,62 @@
             formsPlotAmdf.Dock = DockStyle.Fill;
             formsPlotAmdf.Location = new Point(3, 3);
             formsPlotAmdf.Name = "formsPlotAmdf";
-            formsPlotAmdf.Size = new Size(886, 261);
+            formsPlotAmdf.Size = new Size(906, 261);
             formsPlotAmdf.TabIndex = 0;
+            // 
+            // tabFft
+            // 
+            tabFft.Controls.Add(formsPlotFft);
+            tabFft.Location = new Point(4, 29);
+            tabFft.Name = "tabFft";
+            tabFft.Size = new Size(912, 267);
+            tabFft.TabIndex = 4;
+            tabFft.Text = "Plot FFT";
+            tabFft.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotFft
+            // 
+            formsPlotFft.Dock = DockStyle.Fill;
+            formsPlotFft.Location = new Point(0, 0);
+            formsPlotFft.Name = "formsPlotFft";
+            formsPlotFft.Size = new Size(912, 267);
+            formsPlotFft.TabIndex = 1;
+            // 
+            // tabWindowTime
+            // 
+            tabWindowTime.Controls.Add(formsPlotWindowTime);
+            tabWindowTime.Location = new Point(4, 29);
+            tabWindowTime.Name = "tabWindowTime";
+            tabWindowTime.Size = new Size(912, 267);
+            tabWindowTime.TabIndex = 5;
+            tabWindowTime.Text = "Plot Window Time";
+            tabWindowTime.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotWindowTime
+            // 
+            formsPlotWindowTime.Dock = DockStyle.Fill;
+            formsPlotWindowTime.Location = new Point(0, 0);
+            formsPlotWindowTime.Name = "formsPlotWindowTime";
+            formsPlotWindowTime.Size = new Size(912, 267);
+            formsPlotWindowTime.TabIndex = 2;
+            // 
+            // tabCepstrum
+            // 
+            tabCepstrum.Controls.Add(formsPlotCepstrum);
+            tabCepstrum.Location = new Point(4, 29);
+            tabCepstrum.Name = "tabCepstrum";
+            tabCepstrum.Size = new Size(912, 267);
+            tabCepstrum.TabIndex = 6;
+            tabCepstrum.Text = "Plot Cepstrum";
+            tabCepstrum.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotCepstrum
+            // 
+            formsPlotCepstrum.Dock = DockStyle.Fill;
+            formsPlotCepstrum.Location = new Point(0, 0);
+            formsPlotCepstrum.Name = "formsPlotCepstrum";
+            formsPlotCepstrum.Size = new Size(912, 267);
+            formsPlotCepstrum.TabIndex = 3;
             // 
             // bottomPanel
             // 
@@ -422,7 +497,7 @@
             bottomPanel.Dock = DockStyle.Bottom;
             bottomPanel.Location = new Point(0, 541);
             bottomPanel.Name = "bottomPanel";
-            bottomPanel.Size = new Size(944, 84);
+            bottomPanel.Size = new Size(1254, 84);
             bottomPanel.TabIndex = 7;
             // 
             // lblFramePos
@@ -439,7 +514,7 @@
             lblFrameDetails.Dock = DockStyle.Bottom;
             lblFrameDetails.Location = new Point(0, 59);
             lblFrameDetails.Name = "lblFrameDetails";
-            lblFrameDetails.Size = new Size(944, 25);
+            lblFrameDetails.Size = new Size(1254, 25);
             lblFrameDetails.TabIndex = 1;
             lblFrameDetails.Text = "No frame selected";
             // 
@@ -448,7 +523,7 @@
             trackFrame.Dock = DockStyle.Top;
             trackFrame.Location = new Point(0, 0);
             trackFrame.Name = "trackFrame";
-            trackFrame.Size = new Size(944, 56);
+            trackFrame.Size = new Size(1254, 56);
             trackFrame.TabIndex = 0;
             trackFrame.Scroll += trackFrame_Scroll;
             // 
@@ -458,7 +533,7 @@
             cmbWindowType.Items.AddRange(new object[] { "Rectangular", "Triangular", "Hamming", "Hann", "Blackman" });
             cmbWindowType.Location = new Point(758, 44);
             cmbWindowType.Name = "cmbWindowType";
-            cmbWindowType.Size = new Size(151, 28);
+            cmbWindowType.Size = new Size(174, 28);
             cmbWindowType.TabIndex = 8;
             // 
             // label1
@@ -474,7 +549,7 @@
             // 
             nudFrameMs.Location = new Point(758, 78);
             nudFrameMs.Name = "nudFrameMs";
-            nudFrameMs.Size = new Size(150, 27);
+            nudFrameMs.Size = new Size(174, 27);
             nudFrameMs.TabIndex = 10;
             // 
             // label2
@@ -490,7 +565,7 @@
             // 
             nudOverlapPercent.Location = new Point(758, 114);
             nudOverlapPercent.Name = "nudOverlapPercent";
-            nudOverlapPercent.Size = new Size(150, 27);
+            nudOverlapPercent.Size = new Size(174, 27);
             nudOverlapPercent.TabIndex = 12;
             // 
             // label3
@@ -521,65 +596,212 @@
             btnComputeSpectrogram.Text = "Compute Spectrogram";
             btnComputeSpectrogram.UseVisualStyleBackColor = true;
             // 
-            // tabFft
+            // label4
             // 
-            tabFft.Controls.Add(formsPlotFft);
-            tabFft.Location = new Point(4, 29);
-            tabFft.Name = "tabFft";
-            tabFft.Size = new Size(892, 267);
-            tabFft.TabIndex = 4;
-            tabFft.Text = "Plot FFT";
-            tabFft.UseVisualStyleBackColor = true;
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 12F);
+            label4.Location = new Point(968, 47);
+            label4.Name = "label4";
+            label4.Size = new Size(158, 28);
+            label4.TabIndex = 16;
+            label4.Text = "Cechy Widmowe";
             // 
-            // tabWindowTime
+            // labell
             // 
-            tabWindowTime.Controls.Add(formsPlotWindowTime);
-            tabWindowTime.Location = new Point(4, 29);
-            tabWindowTime.Name = "tabWindowTime";
-            tabWindowTime.Size = new Size(892, 267);
-            tabWindowTime.TabIndex = 5;
-            tabWindowTime.Text = "Plot Window Time";
-            tabWindowTime.UseVisualStyleBackColor = true;
+            labell.AutoSize = true;
+            labell.Location = new Point(968, 86);
+            labell.Name = "labell";
+            labell.Size = new Size(133, 20);
+            labell.TabIndex = 17;
+            labell.Text = "SpectralVolumeVal";
             // 
-            // tabCepstrum
+            // labelll
             // 
-            tabCepstrum.Controls.Add(formsPlotCepstrum);
-            tabCepstrum.Location = new Point(4, 29);
-            tabCepstrum.Name = "tabCepstrum";
-            tabCepstrum.Size = new Size(892, 267);
-            tabCepstrum.TabIndex = 6;
-            tabCepstrum.Text = "Plot Cepstrum";
-            tabCepstrum.UseVisualStyleBackColor = true;
+            labelll.AutoSize = true;
+            labelll.Location = new Point(968, 116);
+            labelll.Name = "labelll";
+            labelll.Size = new Size(86, 20);
+            labelll.TabIndex = 18;
+            labelll.Text = "CentroidVal";
             // 
-            // formsPlotFft
+            // label5
             // 
-            formsPlotFft.Dock = DockStyle.Fill;
-            formsPlotFft.Location = new Point(0, 0);
-            formsPlotFft.Name = "formsPlotFft";
-            formsPlotFft.Size = new Size(892, 267);
-            formsPlotFft.TabIndex = 1;
+            label5.AutoSize = true;
+            label5.Location = new Point(968, 147);
+            label5.Name = "label5";
+            label5.Size = new Size(100, 20);
+            label5.TabIndex = 19;
+            label5.Text = "BandwidthVal";
             // 
-            // formsPlotWindowTime
+            // label6
             // 
-            formsPlotWindowTime.Dock = DockStyle.Fill;
-            formsPlotWindowTime.Location = new Point(0, 0);
-            formsPlotWindowTime.Name = "formsPlotWindowTime";
-            formsPlotWindowTime.Size = new Size(892, 267);
-            formsPlotWindowTime.TabIndex = 2;
+            label6.AutoSize = true;
+            label6.Location = new Point(968, 184);
+            label6.Name = "label6";
+            label6.Size = new Size(81, 20);
+            label6.TabIndex = 20;
+            label6.Text = "FlatnessVal";
             // 
-            // formsPlotCepstrum
+            // label7
             // 
-            formsPlotCepstrum.Dock = DockStyle.Fill;
-            formsPlotCepstrum.Location = new Point(0, 0);
-            formsPlotCepstrum.Name = "formsPlotCepstrum";
-            formsPlotCepstrum.Size = new Size(892, 267);
-            formsPlotCepstrum.TabIndex = 3;
+            label7.AutoSize = true;
+            label7.Location = new Point(968, 210);
+            label7.Name = "label7";
+            label7.Size = new Size(62, 20);
+            label7.TabIndex = 21;
+            label7.Text = "CrestVal";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(968, 242);
+            label8.Name = "label8";
+            label8.Size = new Size(71, 20);
+            label8.TabIndex = 22;
+            label8.Text = "Band1Val";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(968, 271);
+            label9.Name = "label9";
+            label9.Size = new Size(71, 20);
+            label9.TabIndex = 23;
+            label9.Text = "Band2Val";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(968, 302);
+            label10.Name = "label10";
+            label10.Size = new Size(71, 20);
+            label10.TabIndex = 24;
+            label10.Text = "Band3Val";
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(968, 332);
+            label11.Name = "label11";
+            label11.Size = new Size(71, 20);
+            label11.TabIndex = 25;
+            label11.Text = "Band4Val";
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(968, 364);
+            label12.Name = "label12";
+            label12.Size = new Size(107, 20);
+            label12.TabIndex = 26;
+            label12.Text = "CepstrumF0Val";
+            // 
+            // lblSpectralVolumeVal
+            // 
+            lblSpectralVolumeVal.AutoSize = true;
+            lblSpectralVolumeVal.Location = new Point(1107, 86);
+            lblSpectralVolumeVal.Name = "lblSpectralVolumeVal";
+            lblSpectralVolumeVal.Size = new Size(0, 20);
+            lblSpectralVolumeVal.TabIndex = 27;
+            // 
+            // lblCentroidVal
+            // 
+            lblCentroidVal.AutoSize = true;
+            lblCentroidVal.Location = new Point(1121, 121);
+            lblCentroidVal.Name = "lblCentroidVal";
+            lblCentroidVal.Size = new Size(0, 20);
+            lblCentroidVal.TabIndex = 28;
+            // 
+            // lblBandwidthVal
+            // 
+            lblBandwidthVal.AutoSize = true;
+            lblBandwidthVal.Location = new Point(1121, 147);
+            lblBandwidthVal.Name = "lblBandwidthVal";
+            lblBandwidthVal.Size = new Size(0, 20);
+            lblBandwidthVal.TabIndex = 29;
+            // 
+            // lblFlatnessVal
+            // 
+            lblFlatnessVal.AutoSize = true;
+            lblFlatnessVal.Location = new Point(1121, 184);
+            lblFlatnessVal.Name = "lblFlatnessVal";
+            lblFlatnessVal.Size = new Size(0, 20);
+            lblFlatnessVal.TabIndex = 30;
+            // 
+            // lblCrestVal
+            // 
+            lblCrestVal.AutoSize = true;
+            lblCrestVal.Location = new Point(1121, 210);
+            lblCrestVal.Name = "lblCrestVal";
+            lblCrestVal.Size = new Size(0, 20);
+            lblCrestVal.TabIndex = 31;
+            // 
+            // lblBand1Val
+            // 
+            lblBand1Val.AutoSize = true;
+            lblBand1Val.Location = new Point(1121, 242);
+            lblBand1Val.Name = "lblBand1Val";
+            lblBand1Val.Size = new Size(0, 20);
+            lblBand1Val.TabIndex = 32;
+            // 
+            // lblBand2Val
+            // 
+            lblBand2Val.AutoSize = true;
+            lblBand2Val.Location = new Point(1121, 271);
+            lblBand2Val.Name = "lblBand2Val";
+            lblBand2Val.Size = new Size(0, 20);
+            lblBand2Val.TabIndex = 33;
+            // 
+            // lblBand3Val
+            // 
+            lblBand3Val.AutoSize = true;
+            lblBand3Val.Location = new Point(1121, 302);
+            lblBand3Val.Name = "lblBand3Val";
+            lblBand3Val.Size = new Size(0, 20);
+            lblBand3Val.TabIndex = 34;
+            // 
+            // lblBand4Val
+            // 
+            lblBand4Val.AutoSize = true;
+            lblBand4Val.Location = new Point(1121, 332);
+            lblBand4Val.Name = "lblBand4Val";
+            lblBand4Val.Size = new Size(0, 20);
+            lblBand4Val.TabIndex = 35;
+            // 
+            // lblCepstrumF0Val
+            // 
+            lblCepstrumF0Val.AutoSize = true;
+            lblCepstrumF0Val.Location = new Point(1121, 364);
+            lblCepstrumF0Val.Name = "lblCepstrumF0Val";
+            lblCepstrumF0Val.Size = new Size(0, 20);
+            lblCepstrumF0Val.TabIndex = 36;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(944, 625);
+            ClientSize = new Size(1254, 625);
+            Controls.Add(lblCepstrumF0Val);
+            Controls.Add(lblBand4Val);
+            Controls.Add(lblBand3Val);
+            Controls.Add(lblBand2Val);
+            Controls.Add(lblBand1Val);
+            Controls.Add(lblCrestVal);
+            Controls.Add(lblFlatnessVal);
+            Controls.Add(lblBandwidthVal);
+            Controls.Add(lblCentroidVal);
+            Controls.Add(lblSpectralVolumeVal);
+            Controls.Add(label12);
+            Controls.Add(label11);
+            Controls.Add(label10);
+            Controls.Add(label9);
+            Controls.Add(label8);
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(labelll);
+            Controls.Add(labell);
+            Controls.Add(label4);
             Controls.Add(btnComputeSpectrogram);
             Controls.Add(chkUseWholeSignalFft);
             Controls.Add(label3);
@@ -609,14 +831,14 @@
             tabFeat.ResumeLayout(false);
             tabAcf.ResumeLayout(false);
             tabAmdf.ResumeLayout(false);
+            tabFft.ResumeLayout(false);
+            tabWindowTime.ResumeLayout(false);
+            tabCepstrum.ResumeLayout(false);
             bottomPanel.ResumeLayout(false);
             bottomPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackFrame).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudFrameMs).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudOverlapPercent).EndInit();
-            tabFft.ResumeLayout(false);
-            tabWindowTime.ResumeLayout(false);
-            tabCepstrum.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -672,5 +894,26 @@
         private ScottPlot.WinForms.FormsPlot formsPlotWindowTime;
         private TabPage tabCepstrum;
         private ScottPlot.WinForms.FormsPlot formsPlotCepstrum;
+        private Label label4;
+        private Label labell;
+        private Label labelll;
+        private Label label5;
+        private Label label6;
+        private Label label7;
+        private Label label8;
+        private Label label9;
+        private Label label10;
+        private Label label11;
+        private Label label12;
+        private Label lblSpectralVolumeVal;
+        private Label lblCentroidVal;
+        private Label lblBandwidthVal;
+        private Label lblFlatnessVal;
+        private Label lblCrestVal;
+        private Label lblBand1Val;
+        private Label lblBand2Val;
+        private Label lblBand3Val;
+        private Label lblBand4Val;
+        private Label lblCepstrumF0Val;
     }
 }

@@ -23,6 +23,7 @@ namespace Audio_w_Czasie
         {
             InitializeComponent();
             cmbFeature.SelectedIndex = 0;
+            cmbWindowType.SelectedIndex = 0;
         }
 
         public void LoadWavFile(string path)
@@ -233,6 +234,8 @@ namespace Audio_w_Czasie
 
             SetupTrackBar();
             RefreshAllPlots();
+
+            RecomputeFrequencyAnalysis();
         }
 
         private void PlotPitchTrack(ScottPlot.WinForms.FormsPlot plot, double[] f0, string title)
@@ -325,6 +328,8 @@ namespace Audio_w_Czasie
                 PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
 
             UpdateFrameDetails();
+
+            RecomputeFrequencyAnalysis();
         }
 
 
@@ -400,6 +405,121 @@ namespace Audio_w_Czasie
 
             if (_pitchAmdf != null)
                 PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
+
+            RecomputeFrequencyAnalysis();
+        }
+
+        private WindowType GetSelectedWindowType()
+        {
+            string? selected = cmbWindowType.SelectedItem?.ToString();
+
+            return selected switch
+            {
+                "Triangular" => WindowType.Triangular,
+                "Hamming" => WindowType.Hamming,
+                "Hann" => WindowType.Hann,
+                "Blackman" => WindowType.Blackman,
+                _ => WindowType.Rectangular
+            };
+        }
+
+        private void PlotWindowedFrame(float[] rawFrame, double[] winFrame)
+        {
+            formsPlotWindowTime.Plot.Clear();
+
+            double[] raw = Array.ConvertAll(rawFrame, x => (double)x);
+
+            double sampleSpacing = 1.0 / _wav!.SampleRate;
+
+            var sig1 = formsPlotWindowTime.Plot.Add.Signal(raw, sampleSpacing);
+            sig1.LegendText = "Raw frame";
+
+            var sig2 = formsPlotWindowTime.Plot.Add.Signal(winFrame, sampleSpacing);
+            sig2.LegendText = "Windowed frame";
+
+            formsPlotWindowTime.Plot.Title("Frame in time domain");
+            formsPlotWindowTime.Plot.XLabel("Time (s)");
+            formsPlotWindowTime.Plot.YLabel("Amplitude");
+            formsPlotWindowTime.Plot.ShowLegend();
+            formsPlotWindowTime.Plot.Axes.AutoScale();
+            formsPlotWindowTime.Refresh();
+        }
+
+        private void PlotFft(double[] freqs, double[] mags)
+        {
+            formsPlotFft.Plot.Clear();
+
+            var sc = formsPlotFft.Plot.Add.Scatter(freqs, mags);
+            sc.LineWidth = 1.5f;
+            sc.MarkerSize = 0;
+
+            formsPlotFft.Plot.Title("Magnitude spectrum (FFT)");
+            formsPlotFft.Plot.XLabel("Frequency [Hz]");
+            formsPlotFft.Plot.YLabel("Magnitude");
+            formsPlotFft.Plot.Axes.SetLimitsX(0, _wav!.SampleRate / 2.0);
+            formsPlotFft.Plot.Axes.AutoScaleY();
+            formsPlotFft.Refresh();
+        }
+
+        private void UpdateSpectralLabels(SpectralFrameFeatures spectral)
+        {
+            lblSpectralVolumeVal.Text = spectral.SpectralVolume.ToString("F4");
+            lblCentroidVal.Text = spectral.CentroidHz.ToString("F1") + " Hz";
+            lblBandwidthVal.Text = spectral.BandwidthHz.ToString("F1") + " Hz";
+            lblFlatnessVal.Text = spectral.SpectralFlatness.ToString("F4");
+            lblCrestVal.Text = spectral.SpectralCrestFactor.ToString("F4");
+
+            if (spectral.BandEnergyRatio.Length >= 4)
+            {
+                lblBand1Val.Text = spectral.BandEnergyRatio[0].ToString("F4");
+                lblBand2Val.Text = spectral.BandEnergyRatio[1].ToString("F4");
+                lblBand3Val.Text = spectral.BandEnergyRatio[2].ToString("F4");
+                lblBand4Val.Text = spectral.BandEnergyRatio[3].ToString("F4");
+            }
+        }
+
+        private void PlotCepstrum(CepstrumResult cep)
+        {
+            formsPlotCepstrum.Plot.Clear();
+
+            var sc = formsPlotCepstrum.Plot.Add.Scatter(cep.QuefrencySeconds, cep.CepstrumValues);
+            sc.LineWidth = 1.5f;
+            sc.MarkerSize = 0;
+
+            formsPlotCepstrum.Plot.Title("Cepstrum");
+            formsPlotCepstrum.Plot.XLabel("Quefrency [s]");
+            formsPlotCepstrum.Plot.YLabel("Amplitude");
+            formsPlotCepstrum.Plot.Axes.AutoScale();
+
+            lblCepstrumF0Val.Text = $"{cep.F0Hz:F1} Hz";
+
+            formsPlotCepstrum.Refresh();
+        }
+
+        private void RecomputeFrequencyAnalysis()
+        {
+            if (_wav == null || _frames == null || _frames.Length == 0)
+                return;
+
+            int frameIndex = trackFrame.Value;
+            if (frameIndex < 0 || frameIndex >= _frames.Length)
+                return;
+
+            float[] rawFrame = _frames[frameIndex];
+
+            WindowType wt = GetSelectedWindowType();
+            double[] winFrame = WindowFunctions.Apply(rawFrame, wt);
+
+            var fft = FftHelper.ComputeFft(winFrame);
+            FftHelper.GetMagnitudeSpectrum(fft, _wav.SampleRate, out double[] freqs, out double[] mags);
+
+            var spectral = SpectralFeatures.Compute(freqs, mags);
+            UpdateSpectralLabels(spectral);
+            PlotFft(freqs, mags);
+            PlotWindowedFrame(rawFrame, winFrame);
+
+            var cep = CepstrumAnalyzer.ComputeF0FromFrame(winFrame, _wav.SampleRate);
+            PlotCepstrum(cep);
         }
     }
 }
