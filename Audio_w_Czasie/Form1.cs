@@ -1,5 +1,6 @@
 using Audio_w_Czasie.Audio;
 using Audio_w_Czasie.DSP;
+using Audio_w_Czasie.DSP.Frequency;
 using Audio_w_Czasie.Export;
 using System.IO;
 
@@ -400,6 +401,5 @@ namespace Audio_w_Czasie
             if (_pitchAmdf != null)
                 PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
         }
-
     }
 }

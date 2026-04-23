@@ -72,6 +72,12 @@
             label3 = new Label();
             chkUseWholeSignalFft = new CheckBox();
             btnComputeSpectrogram = new Button();
+            tabFft = new TabPage();
+            tabWindowTime = new TabPage();
+            tabCepstrum = new TabPage();
+            formsPlotFft = new ScottPlot.WinForms.FormsPlot();
+            formsPlotWindowTime = new ScottPlot.WinForms.FormsPlot();
+            formsPlotCepstrum = new ScottPlot.WinForms.FormsPlot();
             menuStrip1.SuspendLayout();
             pnlTop.SuspendLayout();
             grpInfo.SuspendLayout();
@@ -86,6 +92,9 @@
             ((System.ComponentModel.ISupportInitialize)trackFrame).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFrameMs).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudOverlapPercent).BeginInit();
+            tabFft.SuspendLayout();
+            tabWindowTime.SuspendLayout();
+            tabCepstrum.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -320,6 +329,9 @@
             tabControl1.Controls.Add(tabFeat);
             tabControl1.Controls.Add(tabAcf);
             tabControl1.Controls.Add(tabAmdf);
+            tabControl1.Controls.Add(tabFft);
+            tabControl1.Controls.Add(tabWindowTime);
+            tabControl1.Controls.Add(tabCepstrum);
             tabControl1.Location = new Point(12, 210);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -443,7 +455,7 @@
             // cmbWindowType
             // 
             cmbWindowType.FormattingEnabled = true;
-            cmbWindowType.Items.AddRange(new object[] { "Rectangular", "", "Triangular", "", "Hamming", "", "Hann", "", "Blackman" });
+            cmbWindowType.Items.AddRange(new object[] { "Rectangular", "Triangular", "Hamming", "Hann", "Blackman" });
             cmbWindowType.Location = new Point(758, 44);
             cmbWindowType.Name = "cmbWindowType";
             cmbWindowType.Size = new Size(151, 28);
@@ -509,6 +521,60 @@
             btnComputeSpectrogram.Text = "Compute Spectrogram";
             btnComputeSpectrogram.UseVisualStyleBackColor = true;
             // 
+            // tabFft
+            // 
+            tabFft.Controls.Add(formsPlotFft);
+            tabFft.Location = new Point(4, 29);
+            tabFft.Name = "tabFft";
+            tabFft.Size = new Size(892, 267);
+            tabFft.TabIndex = 4;
+            tabFft.Text = "Plot FFT";
+            tabFft.UseVisualStyleBackColor = true;
+            // 
+            // tabWindowTime
+            // 
+            tabWindowTime.Controls.Add(formsPlotWindowTime);
+            tabWindowTime.Location = new Point(4, 29);
+            tabWindowTime.Name = "tabWindowTime";
+            tabWindowTime.Size = new Size(892, 267);
+            tabWindowTime.TabIndex = 5;
+            tabWindowTime.Text = "Plot Window Time";
+            tabWindowTime.UseVisualStyleBackColor = true;
+            // 
+            // tabCepstrum
+            // 
+            tabCepstrum.Controls.Add(formsPlotCepstrum);
+            tabCepstrum.Location = new Point(4, 29);
+            tabCepstrum.Name = "tabCepstrum";
+            tabCepstrum.Size = new Size(892, 267);
+            tabCepstrum.TabIndex = 6;
+            tabCepstrum.Text = "Plot Cepstrum";
+            tabCepstrum.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotFft
+            // 
+            formsPlotFft.Dock = DockStyle.Fill;
+            formsPlotFft.Location = new Point(0, 0);
+            formsPlotFft.Name = "formsPlotFft";
+            formsPlotFft.Size = new Size(892, 267);
+            formsPlotFft.TabIndex = 1;
+            // 
+            // formsPlotWindowTime
+            // 
+            formsPlotWindowTime.Dock = DockStyle.Fill;
+            formsPlotWindowTime.Location = new Point(0, 0);
+            formsPlotWindowTime.Name = "formsPlotWindowTime";
+            formsPlotWindowTime.Size = new Size(892, 267);
+            formsPlotWindowTime.TabIndex = 2;
+            // 
+            // formsPlotCepstrum
+            // 
+            formsPlotCepstrum.Dock = DockStyle.Fill;
+            formsPlotCepstrum.Location = new Point(0, 0);
+            formsPlotCepstrum.Name = "formsPlotCepstrum";
+            formsPlotCepstrum.Size = new Size(892, 267);
+            formsPlotCepstrum.TabIndex = 3;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -548,6 +614,9 @@
             ((System.ComponentModel.ISupportInitialize)trackFrame).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudFrameMs).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudOverlapPercent).EndInit();
+            tabFft.ResumeLayout(false);
+            tabWindowTime.ResumeLayout(false);
+            tabCepstrum.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -597,5 +666,11 @@
         private Label label3;
         private CheckBox chkUseWholeSignalFft;
         private Button btnComputeSpectrogram;
+        private TabPage tabFft;
+        private ScottPlot.WinForms.FormsPlot formsPlotFft;
+        private TabPage tabWindowTime;
+        private ScottPlot.WinForms.FormsPlot formsPlotWindowTime;
+        private TabPage tabCepstrum;
+        private ScottPlot.WinForms.FormsPlot formsPlotCepstrum;
     }
 }
