@@ -228,7 +228,7 @@ namespace Audio_w_Czasie
             string gender = ClassifyGender(_pitchAcf);
 
             lblGender.Text = gender;
-           
+
 
             SetupTrackBar();
             RefreshAllPlots();
@@ -326,7 +326,7 @@ namespace Audio_w_Czasie
             UpdateFrameDetails();
         }
 
-    
+
         private void chkSilence_CheckedChanged(object sender, EventArgs e)
         {
             RefreshAllPlots();
@@ -400,7 +400,6 @@ namespace Audio_w_Czasie
             if (_pitchAmdf != null)
                 PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
         }
-
 
     }
 }

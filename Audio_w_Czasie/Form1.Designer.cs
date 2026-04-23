@@ -64,6 +64,14 @@
             lblFramePos = new Label();
             lblFrameDetails = new Label();
             trackFrame = new TrackBar();
+            cmbWindowType = new ComboBox();
+            label1 = new Label();
+            nudFrameMs = new NumericUpDown();
+            label2 = new Label();
+            nudOverlapPercent = new NumericUpDown();
+            label3 = new Label();
+            chkUseWholeSignalFft = new CheckBox();
+            btnComputeSpectrogram = new Button();
             menuStrip1.SuspendLayout();
             pnlTop.SuspendLayout();
             grpInfo.SuspendLayout();
@@ -76,6 +84,8 @@
             tabAmdf.SuspendLayout();
             bottomPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackFrame).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudFrameMs).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudOverlapPercent).BeginInit();
             SuspendLayout();
             // 
             // menuStrip1
@@ -430,16 +440,93 @@
             trackFrame.TabIndex = 0;
             trackFrame.Scroll += trackFrame_Scroll;
             // 
+            // cmbWindowType
+            // 
+            cmbWindowType.FormattingEnabled = true;
+            cmbWindowType.Items.AddRange(new object[] { "Rectangular", "", "Triangular", "", "Hamming", "", "Hann", "", "Blackman" });
+            cmbWindowType.Location = new Point(758, 44);
+            cmbWindowType.Name = "cmbWindowType";
+            cmbWindowType.Size = new Size(151, 28);
+            cmbWindowType.TabIndex = 8;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(653, 49);
+            label1.Name = "label1";
+            label1.Size = new Size(99, 20);
+            label1.TabIndex = 9;
+            label1.Text = "Window Type";
+            // 
+            // nudFrameMs
+            // 
+            nudFrameMs.Location = new Point(758, 78);
+            nudFrameMs.Name = "nudFrameMs";
+            nudFrameMs.Size = new Size(150, 27);
+            nudFrameMs.TabIndex = 10;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(653, 81);
+            label2.Name = "label2";
+            label2.Size = new Size(99, 20);
+            label2.TabIndex = 11;
+            label2.Text = "Window Type";
+            // 
+            // nudOverlapPercent
+            // 
+            nudOverlapPercent.Location = new Point(758, 114);
+            nudOverlapPercent.Name = "nudOverlapPercent";
+            nudOverlapPercent.Size = new Size(150, 27);
+            nudOverlapPercent.TabIndex = 12;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(653, 116);
+            label3.Name = "label3";
+            label3.Size = new Size(99, 20);
+            label3.TabIndex = 13;
+            label3.Text = "Window Type";
+            // 
+            // chkUseWholeSignalFft
+            // 
+            chkUseWholeSignalFft.AutoSize = true;
+            chkUseWholeSignalFft.Location = new Point(640, 166);
+            chkUseWholeSignalFft.Name = "chkUseWholeSignalFft";
+            chkUseWholeSignalFft.Size = new Size(168, 24);
+            chkUseWholeSignalFft.TabIndex = 14;
+            chkUseWholeSignalFft.Text = "Use Whole Signal Fft";
+            chkUseWholeSignalFft.UseVisualStyleBackColor = true;
+            // 
+            // btnComputeSpectrogram
+            // 
+            btnComputeSpectrogram.Location = new Point(815, 151);
+            btnComputeSpectrogram.Name = "btnComputeSpectrogram";
+            btnComputeSpectrogram.Size = new Size(117, 53);
+            btnComputeSpectrogram.TabIndex = 15;
+            btnComputeSpectrogram.Text = "Compute Spectrogram";
+            btnComputeSpectrogram.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(944, 625);
+            Controls.Add(btnComputeSpectrogram);
+            Controls.Add(chkUseWholeSignalFft);
+            Controls.Add(label3);
+            Controls.Add(nudOverlapPercent);
+            Controls.Add(label2);
+            Controls.Add(nudFrameMs);
+            Controls.Add(label1);
             Controls.Add(bottomPanel);
             Controls.Add(tabControl1);
             Controls.Add(optionsPanel);
             Controls.Add(pnlTop);
             Controls.Add(menuStrip1);
+            Controls.Add(cmbWindowType);
             MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Cechy Sygnału Audio w Czasie";
@@ -459,6 +546,8 @@
             bottomPanel.ResumeLayout(false);
             bottomPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackFrame).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudFrameMs).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudOverlapPercent).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -500,5 +589,13 @@
         private Label lblFrameDetails;
         private TrackBar trackFrame;
         private Label lblGender;
+        private ComboBox cmbWindowType;
+        private Label label1;
+        private NumericUpDown nudFrameMs;
+        private Label label2;
+        private NumericUpDown nudOverlapPercent;
+        private Label label3;
+        private CheckBox chkUseWholeSignalFft;
+        private Button btnComputeSpectrogram;
     }
 }
