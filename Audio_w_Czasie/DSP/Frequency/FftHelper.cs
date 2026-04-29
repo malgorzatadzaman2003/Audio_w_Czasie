@@ -22,7 +22,7 @@ namespace Audio_w_Czasie.DSP.Frequency
             Complex[] buf = new Complex[n];
 
             for (int i = 0; i < signal.Length; i++)
-                buf[i] = new Complex(signal[i], 0);
+                buf[i] = new Complex(signal[i], 0); // sygnał rzeczywisty dlatego część urojona równa 0
 
             FFTInPlace(buf);
             return buf;
@@ -35,7 +35,7 @@ namespace Audio_w_Czasie.DSP.Frequency
 
             for (int i = 0; i < n; i++)
             {
-                int j = ReverseBits(i, bits);
+                int j = ReverseBits(i, bits);  // potrzebna do początkowego przestawienia próbek w FFT
                 if (j > i)
                     (buffer[i], buffer[j]) = (buffer[j], buffer[i]);
             }
@@ -71,13 +71,14 @@ namespace Audio_w_Czasie.DSP.Frequency
             return y;
         }
 
+        // zamiana fft na dane do wykresu: częstotliwości i amplitudy widma
         public static void GetMagnitudeSpectrum(
             Complex[] fft,
             int sampleRate,
             out double[] freqs,
             out double[] mags)
         {
-            int half = fft.Length / 2;
+            int half = fft.Length / 2; // polowa bo dla syganlu rzeczywistego druga polowa widma jest lustrzanym odbiciem pierwszej
             freqs = new double[half];
             mags = new double[half];
 

@@ -8,13 +8,13 @@ namespace Audio_w_Czasie.DSP.Frequency
 {
     public sealed class SpectralFrameFeatures
     {
-        public double SpectralVolume { get; init; }
-        public double CentroidHz { get; init; }
-        public double BandwidthHz { get; init; }
-        public double[] BandEnergy { get; init; } = Array.Empty<double>();
-        public double[] BandEnergyRatio { get; init; } = Array.Empty<double>();
-        public double SpectralFlatness { get; init; }
-        public double SpectralCrestFactor { get; init; }
+        public double SpectralVolume { get; init; } // energia widmowa
+        public double CentroidHz { get; init; } // częstotliwość centroidu (środek masy widma)
+        public double BandwidthHz { get; init; } // szerokość pasma widma
+        public double[] BandEnergy { get; init; } = Array.Empty<double>(); // energia w poszczególnych pasmach 
+        public double[] BandEnergyRatio { get; init; } = Array.Empty<double>(); // udział energii w pasmach 
+        public double SpectralFlatness { get; init; } // miara szumowości widm
+        public double SpectralCrestFactor { get; init; } // max/sr. widma
     }
 
     public static class SpectralFeatures

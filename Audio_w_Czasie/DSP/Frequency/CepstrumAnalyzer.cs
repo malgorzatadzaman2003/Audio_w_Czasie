@@ -35,13 +35,14 @@ namespace Audio_w_Czasie.DSP.Frequency
                 quef[i] = (double)i / sampleRate;
             }
 
+            // zakres: 50Hz - 400Hz -> indeksy miedzy: 22050/400 a 22050/50 dla fs=22050
             int minIdx = (int)Math.Floor(sampleRate / 400.0);
             int maxIdx = (int)Math.Ceiling(sampleRate / 50.0);
 
             double best = double.NegativeInfinity;
             int bestIdx = minIdx;
 
-            for (int i = minIdx; i <= Math.Min(maxIdx, cep.Length - 1); i++)
+            for (int i = minIdx; i <= Math.Min(maxIdx, cep.Length - 1); i++) // szukanie max piku cepstralnego w zakresie odpowiadającym 50-400Hz
             {
                 if (cep[i] > best)
                 {

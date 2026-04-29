@@ -8,9 +8,9 @@ namespace Audio_w_Czasie.DSP.Frequency
 {
     public sealed class SpectrogramData
     {
-        public double[,] MagnitudeDb { get; init; } = new double[0, 0];
-        public double[] TimeAxis { get; init; } = Array.Empty<double>();
-        public double[] FreqAxis { get; init; } = Array.Empty<double>();
+        public double[,] MagnitudeDb { get; init; } = new double[0, 0]; // macierz widma w dB ( wierzsze -> częstotliwości, kolumny -> ramki czasowe)
+        public double[] TimeAxis { get; init; } = Array.Empty<double>(); // czasy kolejnych ramek
+        public double[] FreqAxis { get; init; } = Array.Empty<double>(); // częstotliwości 
     }
 
     public static class SpectrogramBuilder
@@ -43,7 +43,7 @@ namespace Audio_w_Czasie.DSP.Frequency
                 var fft = FftHelper.ComputeFft(winFrame);
                 FftHelper.GetMagnitudeSpectrum(fft, sampleRate, out _, out double[] mags);
 
-                for (int k = 0; k < half; k++)
+                for (int k = 0; k < half; k++) // zamiana na dB
                     spec[k, f] = 20.0 * Math.Log10(mags[k] + 1e-12);
 
                 times[f] = (double)start / sampleRate;
