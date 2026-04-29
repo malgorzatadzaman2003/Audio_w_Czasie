@@ -66,6 +66,8 @@
             formsPlotWindowTime = new ScottPlot.WinForms.FormsPlot();
             tabCepstrum = new TabPage();
             formsPlotCepstrum = new ScottPlot.WinForms.FormsPlot();
+            tabSpectogram = new TabPage();
+            formsPlotSpectrogram = new ScottPlot.WinForms.FormsPlot();
             bottomPanel = new Panel();
             lblFramePos = new Label();
             lblFrameDetails = new Label();
@@ -112,6 +114,7 @@
             tabFft.SuspendLayout();
             tabWindowTime.SuspendLayout();
             tabCepstrum.SuspendLayout();
+            tabSpectogram.SuspendLayout();
             bottomPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackFrame).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudFrameMs).BeginInit();
@@ -353,6 +356,7 @@
             tabControl1.Controls.Add(tabFft);
             tabControl1.Controls.Add(tabWindowTime);
             tabControl1.Controls.Add(tabCepstrum);
+            tabControl1.Controls.Add(tabSpectogram);
             tabControl1.Location = new Point(12, 210);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -489,6 +493,24 @@
             formsPlotCepstrum.Size = new Size(912, 267);
             formsPlotCepstrum.TabIndex = 3;
             // 
+            // tabSpectogram
+            // 
+            tabSpectogram.Controls.Add(formsPlotSpectrogram);
+            tabSpectogram.Location = new Point(4, 29);
+            tabSpectogram.Name = "tabSpectogram";
+            tabSpectogram.Size = new Size(912, 267);
+            tabSpectogram.TabIndex = 7;
+            tabSpectogram.Text = "Plot Spectogram";
+            tabSpectogram.UseVisualStyleBackColor = true;
+            // 
+            // formsPlotSpectrogram
+            // 
+            formsPlotSpectrogram.Dock = DockStyle.Fill;
+            formsPlotSpectrogram.Location = new Point(0, 0);
+            formsPlotSpectrogram.Name = "formsPlotSpectrogram";
+            formsPlotSpectrogram.Size = new Size(912, 267);
+            formsPlotSpectrogram.TabIndex = 1;
+            // 
             // bottomPanel
             // 
             bottomPanel.Controls.Add(lblFramePos);
@@ -533,68 +555,76 @@
             cmbWindowType.Items.AddRange(new object[] { "Rectangular", "Triangular", "Hamming", "Hann", "Blackman" });
             cmbWindowType.Location = new Point(758, 44);
             cmbWindowType.Name = "cmbWindowType";
-            cmbWindowType.Size = new Size(174, 28);
+            cmbWindowType.Size = new Size(186, 28);
             cmbWindowType.TabIndex = 8;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(653, 49);
+            label1.Location = new Point(643, 49);
             label1.Name = "label1";
-            label1.Size = new Size(99, 20);
+            label1.Size = new Size(95, 20);
             label1.TabIndex = 9;
-            label1.Text = "Window Type";
+            label1.Text = "WindowType";
             // 
             // nudFrameMs
             // 
             nudFrameMs.Location = new Point(758, 78);
+            nudFrameMs.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             nudFrameMs.Name = "nudFrameMs";
-            nudFrameMs.Size = new Size(174, 27);
+            nudFrameMs.Size = new Size(186, 27);
             nudFrameMs.TabIndex = 10;
+            nudFrameMs.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            nudFrameMs.ValueChanged += nudFrameMs_ValueChanged;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(653, 81);
+            label2.Location = new Point(643, 81);
             label2.Name = "label2";
-            label2.Size = new Size(99, 20);
+            label2.Size = new Size(69, 20);
             label2.TabIndex = 11;
-            label2.Text = "Window Type";
+            label2.Text = "FrameMs";
             // 
             // nudOverlapPercent
             // 
             nudOverlapPercent.Location = new Point(758, 114);
+            nudOverlapPercent.Maximum = new decimal(new int[] { 90, 0, 0, 0 });
             nudOverlapPercent.Name = "nudOverlapPercent";
-            nudOverlapPercent.Size = new Size(174, 27);
+            nudOverlapPercent.Size = new Size(186, 27);
             nudOverlapPercent.TabIndex = 12;
+            nudOverlapPercent.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            nudOverlapPercent.ValueChanged += nudOverlapPercent_ValueChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(653, 116);
+            label3.Location = new Point(643, 116);
             label3.Name = "label3";
-            label3.Size = new Size(99, 20);
+            label3.Size = new Size(109, 20);
             label3.TabIndex = 13;
-            label3.Text = "Window Type";
+            label3.Text = "OverlapPercent";
             // 
             // chkUseWholeSignalFft
             // 
             chkUseWholeSignalFft.AutoSize = true;
-            chkUseWholeSignalFft.Location = new Point(640, 166);
+            chkUseWholeSignalFft.Location = new Point(643, 166);
             chkUseWholeSignalFft.Name = "chkUseWholeSignalFft";
             chkUseWholeSignalFft.Size = new Size(168, 24);
             chkUseWholeSignalFft.TabIndex = 14;
             chkUseWholeSignalFft.Text = "Use Whole Signal Fft";
             chkUseWholeSignalFft.UseVisualStyleBackColor = true;
+            chkUseWholeSignalFft.CheckedChanged += chkUseWholeSignalFft_CheckedChanged;
             // 
             // btnComputeSpectrogram
             // 
-            btnComputeSpectrogram.Location = new Point(815, 151);
+            btnComputeSpectrogram.Location = new Point(827, 151);
             btnComputeSpectrogram.Name = "btnComputeSpectrogram";
             btnComputeSpectrogram.Size = new Size(117, 53);
             btnComputeSpectrogram.TabIndex = 15;
             btnComputeSpectrogram.Text = "Compute Spectrogram";
             btnComputeSpectrogram.UseVisualStyleBackColor = true;
+            btnComputeSpectrogram.Click += btnComputeSpectrogram_Click;
             // 
             // label4
             // 
@@ -834,6 +864,7 @@
             tabFft.ResumeLayout(false);
             tabWindowTime.ResumeLayout(false);
             tabCepstrum.ResumeLayout(false);
+            tabSpectogram.ResumeLayout(false);
             bottomPanel.ResumeLayout(false);
             bottomPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)trackFrame).EndInit();
@@ -915,5 +946,7 @@
         private Label lblBand3Val;
         private Label lblBand4Val;
         private Label lblCepstrumF0Val;
+        private TabPage tabSpectogram;
+        private ScottPlot.WinForms.FormsPlot formsPlotSpectrogram;
     }
 }

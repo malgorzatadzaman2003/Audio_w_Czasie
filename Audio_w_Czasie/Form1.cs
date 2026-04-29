@@ -19,6 +19,8 @@ namespace Audio_w_Czasie
         private PitchTrack? _pitchAmdf;
 
 
+        private SpectrogramData? _spectrogram;
+
         public Form1()
         {
             InitializeComponent();
@@ -210,11 +212,16 @@ namespace Audio_w_Czasie
             if (_wav == null)
                 return;
 
-            int frameMs = 20;
+            int frameMs = (int)nudFrameMs.Value;
             _frameSize = Framing.FrameSizeFromMs(_wav.SampleRate, frameMs);
-            _hop = _frameSize / 2;
 
-            _frames = Framing.MakeFrames(_wav.SamplesMono, _frameSize, _hop, applyHamming: true);
+            int overlapPercent = (int)nudOverlapPercent.Value;
+            _hop = (int)Math.Round(_frameSize * (1.0 - overlapPercent / 100.0));
+
+            if (_hop < 1)
+                _hop = 1;
+
+            _frames = Framing.MakeFrames(_wav.SamplesMono, _frameSize, _hop, applyHamming: false);
 
             _feat = FeatureExtractor.ExtractFeatures(
                 _frames,
@@ -228,13 +235,10 @@ namespace Audio_w_Czasie
             _pitchAmdf = PitchDetector.ComputeF0_Amdf(_frames, _wav.SampleRate, _feat.IsSilence);
 
             string gender = ClassifyGender(_pitchAcf);
-
             lblGender.Text = gender;
-
 
             SetupTrackBar();
             RefreshAllPlots();
-
             RecomputeFrequencyAnalysis();
         }
 
@@ -406,7 +410,8 @@ namespace Audio_w_Czasie
             if (_pitchAmdf != null)
                 PlotPitchTrack(formsPlotAmdf, _pitchAmdf.F0Hz, "Pitch track - AMDF");
 
-            RecomputeFrequencyAnalysis();
+            if (!chkUseWholeSignalFft.Checked)
+                RecomputeFrequencyAnalysis();
         }
 
         private WindowType GetSelectedWindowType()
@@ -428,16 +433,15 @@ namespace Audio_w_Czasie
             formsPlotWindowTime.Plot.Clear();
 
             double[] raw = Array.ConvertAll(rawFrame, x => (double)x);
-
             double sampleSpacing = 1.0 / _wav!.SampleRate;
 
             var sig1 = formsPlotWindowTime.Plot.Add.Signal(raw, sampleSpacing);
-            sig1.LegendText = "Raw frame";
+            sig1.LegendText = "Raw signal";
 
             var sig2 = formsPlotWindowTime.Plot.Add.Signal(winFrame, sampleSpacing);
-            sig2.LegendText = "Windowed frame";
+            sig2.LegendText = "Windowed signal";
 
-            formsPlotWindowTime.Plot.Title("Frame in time domain");
+            formsPlotWindowTime.Plot.Title("Time domain before/after window");
             formsPlotWindowTime.Plot.XLabel("Time (s)");
             formsPlotWindowTime.Plot.YLabel("Amplitude");
             formsPlotWindowTime.Plot.ShowLegend();
@@ -498,28 +502,109 @@ namespace Audio_w_Czasie
 
         private void RecomputeFrequencyAnalysis()
         {
-            if (_wav == null || _frames == null || _frames.Length == 0)
+            if (_wav == null)
                 return;
-
-            int frameIndex = trackFrame.Value;
-            if (frameIndex < 0 || frameIndex >= _frames.Length)
-                return;
-
-            float[] rawFrame = _frames[frameIndex];
 
             WindowType wt = GetSelectedWindowType();
-            double[] winFrame = WindowFunctions.Apply(rawFrame, wt);
 
-            var fft = FftHelper.ComputeFft(winFrame);
+            double[] signalForFft;
+            float[] rawFrame;
+
+            if (chkUseWholeSignalFft.Checked)
+            {
+                rawFrame = _wav.SamplesMono;
+                signalForFft = WindowFunctions.Apply(_wav.SamplesMono, wt);
+            }
+            else
+            {
+                if (_frames == null || _frames.Length == 0)
+                    return;
+
+                int frameIndex = trackFrame.Value;
+                if (frameIndex < 0 || frameIndex >= _frames.Length)
+                    return;
+
+                rawFrame = _frames[frameIndex];
+                signalForFft = WindowFunctions.Apply(rawFrame, wt);
+            }
+
+            var fft = FftHelper.ComputeFft(signalForFft);
             FftHelper.GetMagnitudeSpectrum(fft, _wav.SampleRate, out double[] freqs, out double[] mags);
 
             var spectral = SpectralFeatures.Compute(freqs, mags);
             UpdateSpectralLabels(spectral);
             PlotFft(freqs, mags);
-            PlotWindowedFrame(rawFrame, winFrame);
+            PlotWindowedFrame(rawFrame, signalForFft);
 
-            var cep = CepstrumAnalyzer.ComputeF0FromFrame(winFrame, _wav.SampleRate);
-            PlotCepstrum(cep);
+            if (!chkUseWholeSignalFft.Checked)
+            {
+                var cep = CepstrumAnalyzer.ComputeF0FromFrame(signalForFft, _wav.SampleRate);
+                PlotCepstrum(cep);
+            }
+            else
+            {
+                formsPlotCepstrum.Plot.Clear();
+                formsPlotCepstrum.Plot.Title("Cepstrum available for selected frame");
+                formsPlotCepstrum.Refresh();
+                lblCepstrumF0Val.Text = "-";
+            }
+        }
+
+        private void nudFrameMs_ValueChanged(object sender, EventArgs e)
+        {
+            RecomputeAndRefresh();
+        }
+
+        private void nudOverlapPercent_ValueChanged(object sender, EventArgs e)
+        {
+            RecomputeAndRefresh();
+        }
+
+        private void ComputeAndPlotSpectrogram()
+        {
+            if (_wav == null)
+                return;
+
+            int frameMs = (int)nudFrameMs.Value;
+            int frameSize = Framing.FrameSizeFromMs(_wav.SampleRate, frameMs);
+
+            int overlapPercent = (int)nudOverlapPercent.Value;
+            int hopSize = (int)Math.Round(frameSize * (1.0 - overlapPercent / 100.0));
+            if (hopSize < 1)
+                hopSize = 1;
+
+            WindowType wt = GetSelectedWindowType();
+
+            _spectrogram = SpectrogramBuilder.Build(
+                _wav.SamplesMono,
+                _wav.SampleRate,
+                frameSize,
+                hopSize,
+                wt);
+
+            PlotSpectrogram(_spectrogram);
+        }
+
+        private void PlotSpectrogram(SpectrogramData spec)
+        {
+            formsPlotSpectrogram.Plot.Clear();
+
+            formsPlotSpectrogram.Plot.Add.Heatmap(spec.MagnitudeDb);
+
+            formsPlotSpectrogram.Plot.Title("Spectrogram");
+            formsPlotSpectrogram.Plot.XLabel("Frame index");
+            formsPlotSpectrogram.Plot.YLabel("Frequency bin");
+
+            formsPlotSpectrogram.Refresh();
+        }
+        private void btnComputeSpectrogram_Click(object sender, EventArgs e)
+        {
+            ComputeAndPlotSpectrogram();
+        }
+
+        private void chkUseWholeSignalFft_CheckedChanged(object sender, EventArgs e)
+        {
+            RecomputeAndRefresh();
         }
     }
 }
